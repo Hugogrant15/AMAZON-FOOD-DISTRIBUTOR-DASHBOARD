@@ -328,6 +328,23 @@ form label {
     line-height: 28px;
     color: #131523;
 }
+.card-body p {
+    font-family: "Archivo", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #5A607F;
+}
+.card-body button {
+    width: 178px;
+    height: 40px;
+    background: #00A859;
+    font-family: "Archivo", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #FFFFFF;
+}
 
 /* inventory.html starts here  */
 
@@ -382,10 +399,10 @@ form label {
     color: #fff;
 }
 
-.inventoryTop h1 {
+.inventoryTop h1, .inventoryh2 {
     font-family: "Archivo", sans-serif;
     font-size: 20px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 30px;
     color: #171725;
 }
