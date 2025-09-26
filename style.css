@@ -6,8 +6,77 @@
 body {
     background: #f8f9fa;
 }
+/* navpopup style  */
+/* .navbar {
+  height: 70px;
+  border-bottom: 1px solid #eee;
+}
+
+.navbar .btn i {
+  color: #8D98AF;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.sidebar ul li {
+  padding: 12px 20px;
+}
+
+.sidebar ul li a {
+  color: #8D98AF;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar ul li a.active {
+  color: #000;
+  font-weight: 600;
+} */
 
 /* distributor signup styling here  */
+.pagemodal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.82);
+}
+
+.preloader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    margin: -76px 0 0 -76px;
+    border-radius: 50%;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+.spin,
+.spin2 {
+  display: none;
+}
+
+.signupRelative {
+  position: relative;
+}
+.signupAbsolute {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+}
+
 .signheAD {
     font-family: "Archivo", sans-serif;
     font-size: 37px;
@@ -81,7 +150,6 @@ body {
 /* sidebar styling starts here  */
 
 .sidebar {
-    /* height: 100vh; */
     background: #fff;
     border-right: 1px solid #dee2e6;
 }

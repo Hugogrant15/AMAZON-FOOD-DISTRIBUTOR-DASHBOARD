@@ -1,0 +1,44 @@
+.navbar {
+  height: 70px;
+  border-bottom: 1px solid #eee;
+}
+
+.navbar .btn i {
+  color: #8D98AF;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.sidebar ul li {
+  padding: 12px 20px;
+}
+
+.sidebar ul li a {
+  color: #8D98AF;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar ul li a.active {
+  color: #000;
+  font-weight: 600;
+}
+
+#notificationPopUp {
+    height: 500px !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #00A859 #f1f1f1;
+    position: absolute;
+    top: 70px;
+    right: 240px;
+    z-index: 1;
+    background: white;
+    
+    display: none;
+}
