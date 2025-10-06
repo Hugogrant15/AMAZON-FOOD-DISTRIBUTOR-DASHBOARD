@@ -259,8 +259,23 @@
             </ul>
 
             <!-- all order section -->             
-            <section id="AllorderTable">
-                <table class="table mt-3"  >
+             <section id="AllorderTable">
+                <table class="table mt-3"  id="Allordertable">
+                    <thead class="">
+                        <tr>
+                            <th><i class="fa-solid fa-bars me-2" style="color: #1968F0;"></i>Order Id</th>
+                            <th><i class="fa-regular fa-calendar me-2" style="color: #ECA918;"></i>Ordered Date</th>
+                            <th><i class="fa-solid fa-warehouse me-2" style="color: #EEAD20;"></i>Product Name</th>
+                            <th><i class="fa-solid fa-location-dot me-2" style="color: #9BACCA;"></i>City</th>
+                            <th><i class="fa-solid fa-signal me-2" style="color: #74C0FC;"></i>Delivery status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+        
+                <!-- <table class="table mt-3"  >
+
                     <thead class="">
                         <tr>
                             <th><i class="fa-solid fa-bars me-2" style="color: #1968f0;"></i>Order Id</th>
@@ -367,13 +382,13 @@
                             </li>
                         </ul>
                     </nav>
-                </div>
-            </section>
+                </div> -->
+            </section> 
         
         </section>
 
         <!-- pending order section -->
-        <section id="PendingorderTable">
+        <!-- <section id="PendingorderTable">
             <table class="table mt-3">
                 <thead class="">
                     <tr>
@@ -482,10 +497,10 @@
                     </ul>
                 </nav>
              </div>
-        </section>
+        </section> -->
 
         <!-- delivered order section -->
-         <section id="deliveredgorderTable">
+         <!-- <section id="deliveredgorderTable">
             <table class="table mt-3">
                 <thead class="">
                     <tr>
@@ -594,10 +609,10 @@
                     </ul>
                 </nav>
              </div>
-        </section>
+        </section> -->
 
         <!-- cancelled order section -->
-         <section id="cancelorderTable">
+         <!-- <section id="cancelorderTable">
             <table class="table mt-3">
                 <thead class="">
                     <tr>
@@ -716,9 +731,9 @@
                     </ul>
                 </nav>
              </div>
-        </section>
+        </section> -->
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-sm-12 col-md-4 col-lg-4 ">
                 <div class="card shadow border-0">
                     <img src="./images/Image1.png" alt="">
@@ -788,10 +803,60 @@
             </div>
 
 
-        </div>
+        </div> -->
     </div>
   </div>
 </div>
+
+
+        <script>
+            async function loadDistributorOrders() {
+console.log(":white_tick: Loading distributor orders...");
+try {
+// :one: Get distributor's city from localStorage
+const distributorCity = localStorage.getItem("city");
+if (!distributorCity) {
+console.warn("No distributor city found in localStorage");
+return;
+}
+// :two: Fetch all orders
+const response = await fetch("http://localhost:3001/amazon/document/api/orders");
+if (!response.ok) throw new Error("Failed to fetch orders");
+const orders = await response.json();
+console.log(":package: Orders received:", orders);
+// :three: Filter orders by distributor's city (nested in customerSnapshot)
+const cityOrders = orders.filter(
+order => order.customerSnapshot?.city?.toLowerCase() === distributorCity.toLowerCase()
+);
+console.log(`:magnifying_glass: Orders in city (${distributorCity}):`, cityOrders);
+// :four: Populate table
+const tbody = document.querySelector("#Allordertable tbody");
+tbody.innerHTML = "";
+if (cityOrders.length === 0) {
+tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No orders in your city</td></tr>`;
+return;
+}
+cityOrders.forEach((order) => {
+const row = document.createElement("tr");
+// Join all product names in the order
+    const productNames = order.items?.map(item => item.name || "Unnamed")?.join(", ") || "N/A";
+row.innerHTML = `
+<td>${order._id || "N/A"}</td>
+<td>${new Date(order.createdAt).toLocaleDateString() || "N/A"}</td>
+<td>${productNames}</td>
+<td>${order.customerSnapshot?.city || "N/A"}</td>
+<td>${order.deliveryStatus || "N/A"}</td>
+`;
+tbody.appendChild(row);
+});
+console.log(":white_tick: Distributor orders table updated!");
+} catch (error) {
+console.error(":fire: Error loading distributor orders:", error);
+}
+}
+// Call this when the page loads
+document.addEventListener("DOMContentLoaded", loadDistributorOrders);
+        </script>
 
 
 

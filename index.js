@@ -163,6 +163,7 @@ function distributorLogin(event) {
             // save token + ids in localStorage
             localStorage.setItem("key", result.token);
             localStorage.setItem("customerloginid", result._id);
+            localStorage.setItem("city", payload.city);
 
             const currentId = localStorage.getItem('customerloginid');
             const previousId = localStorage.getItem('customerid');
@@ -408,6 +409,7 @@ function logOut() {
       localStorage.removeItem("role");
       localStorage.removeItem("customerid");
       localStorage.removeItem("customerloginid");
+      localStorage.removeItem("city");
       Swal.fire({
         icon: 'success',
         title: 'Logged out',

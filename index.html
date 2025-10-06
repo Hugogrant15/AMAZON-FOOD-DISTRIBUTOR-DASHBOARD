@@ -243,31 +243,34 @@
       <div class="row g-3 mb-4" >
         <div class="col-md-3">
           <div class="metric-card">
-            <h5>Total Distribution (Yearly)</h5>
-            <h3>$84,573</h3><small class="text-success">+4.2%</small>
-            <small class="text-success">+4.2% </small><i class="fa-light fa-arrow-up" style="color: red;"></i>
-            <small>Compared to ($3400 last year)</small>
+          <h5>Total Sales (Yearly)</h5>
+          <h3 id="totalSales">₦0</h3>
+          <small class="text-success">+4.2%</small>
+          <i class="fa-light fa-arrow-up" style="color: red;"></i>
+          <!-- <small>Compared to last year</small> -->
+        </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="metric-card">
+            <h5>Total Sales (Daily)</h5>
+            <h3 id="totalSalesDaily">₦0</h3>
+            <small class="text-success">+0% vs yesterday</small>
           </div>
         </div>
         <div class="col-md-3">
           <div class="metric-card">
-            <h5>Total Distribution (Daily)</h5>
-            <h3>$124,055</h3>
-            <small class="text-success">+3.2% vs last year</small>
-          </div>
+          <h5>Total Sales (Weekly)</h5>
+          <h3 id="totalSalesWeekly">₦0</h3>
+          <small class="text-weekly">+0% vs last week</small>
+        </div>
+
         </div>
         <div class="col-md-3">
           <div class="metric-card">
-            <h5>Total Distribution (Weekly)</h5>
-            <h3>$4,512</h3>
-            <small class="text-danger">-2.2% vs last year</small>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="metric-card">
-            <h5>Total Distribution (Monthly)</h5>
-            <h3>$17,856</h3>
-            <small class="text-success">+1.8% vs last year</small>
+            <h5>Total Sales (Monthly)</h5>
+            <h3 id="totalSalesMonthly">₦0</h3>
+            <small class="text-monthly">+0% vs last month</small>
           </div>
         </div>
       </div>
@@ -493,62 +496,259 @@
 
 
 
-
-
-
-
-
-
-<!-- <script>
-  function renderProductsTable(products, containerId = "bestSellingTable") {
-  const table = document.getElementById(containerId);
-  if (!table) return;
-
-  const tbody = table.querySelector("tbody");
-  tbody.innerHTML = "";
-
-  products.forEach(product => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${escapeHtml(product.name)}</td>
-      <td>${Number(product.sales || 0).toLocaleString()}</td>
-      <td>${Number(product.stock || 0).toLocaleString()}</td>
-      <td>₦${Number(product.price || 0).toLocaleString()}</td>
-      <td class="${product.stock > 0 ? "text-success" : "text-danger"}">
-        ${product.stock > 0 ? "In Stock" : "Out Of Stock"}
-      </td>
-    `;
-    tbody.appendChild(row);
-  });
-}
-
-async function loadProductsForDashboard() {
-  const table = document.getElementById("bestSellingTable");
-  if (!table) return;
-
+<!-- yearly sales on dashboard  -->
+<script>
+async function loadTotalSales() {
   try {
-    const res = await fetch("http://localhost:3001/amazon/document/api/products");
-    if (!res.ok) throw new Error("Failed to fetch products: " + res.status);
-    const products = await res.json();
-
-    const list = Array.isArray(products) ? products : (products.data || []);
-
-    // Sort by sales (descending) and pick top 5
-    const bestSelling = list
-      .sort((a, b) => (b.sales || 0) - (a.sales || 0))
-      .slice(0, 5);
-
-    renderProductsTable(bestSelling);
-  } catch (err) {
-    console.error("Error loading dashboard products:", err);
+    const distributorCity = localStorage.getItem("city");
+    if (!distributorCity) return;
+    const response = await fetch("http://localhost:3001/amazon/document/api/orders");
+    if (!response.ok) throw new Error("Failed to fetch orders");
+    const orders = await response.json();
+    // Filter orders by distributor city and current year
+    const currentYear = new Date().getFullYear();
+    const cityOrders = orders.filter(order =>
+      order.customerSnapshot?.city?.toLowerCase() === distributorCity.toLowerCase() &&
+      new Date(order.createdAt).getFullYear() === currentYear
+    );
+    // Sum totalAmount
+    const totalSales = cityOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+    // Animate the number
+    const totalSalesElem = document.getElementById("totalSales");
+    if (!totalSalesElem) return;
+    animateNumber(totalSalesElem, totalSales);
+  } catch (error) {
+    console.error(":fire: Error loading total sales:", error);
   }
 }
+// Simple number animation
+function animateNumber(element, targetValue, duration = 1500) {
+  const startValue = 0;
+  const startTime = performance.now();
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const currentNumber = Math.floor(progress * targetValue);
+    element.textContent = `₦${currentNumber.toLocaleString("en-NG")}`;
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+  requestAnimationFrame(update);
+}
+// Call on page load
+document.addEventListener("DOMContentLoaded", loadTotalSales);
+</script>
 
-document.addEventListener("DOMContentLoaded", loadProductsForDashboard);
-</script> -->
+<!-- daily sales on dashboard  -->
+<script>
+  async function loadDailySales() {
+  try {
+    const distributorCity = localStorage.getItem("city");
+    if (!distributorCity) return;
+    const response = await fetch("http://localhost:3001/amazon/document/api/orders");
+    if (!response.ok) throw new Error("Failed to fetch orders");
+    const orders = await response.json();
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const formatDate = date => date.toISOString().split("T")[0]; // "YYYY-MM-DD"
+    const todayString = formatDate(today);
+    const yesterdayString = formatDate(yesterday);
+    // Filter today's orders
+    const todayOrders = orders.filter(order => {
+      const orderCity = order.customerSnapshot?.city?.toLowerCase();
+      const orderDate = new Date(order.createdAt).toISOString().split("T")[0];
+      return orderCity === distributorCity.toLowerCase() && orderDate === todayString;
+    });
+    // Filter yesterday's orders
+    const yesterdayOrders = orders.filter(order => {
+      const orderCity = order.customerSnapshot?.city?.toLowerCase();
+      const orderDate = new Date(order.createdAt).toISOString().split("T")[0];
+      return orderCity === distributorCity.toLowerCase() && orderDate === yesterdayString;
+    });
+    const todayTotal = todayOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+    const yesterdayTotal = yesterdayOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+    // Animate number
+    const totalSalesElem = document.getElementById("totalSalesDaily");
+    if (totalSalesElem) animateNumber(totalSalesElem, todayTotal);
+    // Calculate percentage difference
+    let percentChange = 0;
+    if (yesterdayTotal === 0) {
+      percentChange = todayTotal > 0 ? 100 : 0;
+    } else {
+      percentChange = ((todayTotal - yesterdayTotal) / yesterdayTotal) * 100;
+    }
+    // Update the percentage text
+    const percentElem = document.querySelector(".metric-card small.text-success");
+    if (percentElem) {
+      const sign = percentChange >= 0 ? "+" : "";
+      percentElem.textContent = `${sign}${percentChange.toFixed(1)}% vs yesterday`;
+      percentElem.style.color = percentChange >= 0 ? "green" : "red";
+    }
+  } catch (error) {
+    console.error(":fire: Error loading daily sales:", error);
+  }
+}
+// Reuse the animateNumber function
+function animateNumber(element, targetValue, duration = 1500) {
+  const startValue = 0;
+  const startTime = performance.now();
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const currentNumber = Math.floor(progress * targetValue);
+    element.textContent = `₦${currentNumber.toLocaleString("en-NG")}`;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+document.addEventListener("DOMContentLoaded", loadDailySales);
+</script>
 
-  
+<!-- weekly sales on dashboard -->
+<script>
+async function loadWeeklySales() {
+  try {
+    const distributorCity = localStorage.getItem("city");
+    if (!distributorCity) return;
 
+    const response = await fetch("http://localhost:3001/amazon/document/api/orders");
+    if (!response.ok) throw new Error("Failed to fetch orders");
+    const orders = await response.json();
+
+    const today = new Date();
+
+    // This week (Monday → today)
+    const thisWeekStart = new Date(today);
+    thisWeekStart.setDate(today.getDate() - today.getDay() + 1); // Monday of current week
+
+    // Last week (Monday → Sunday)
+    const lastWeekStart = new Date(thisWeekStart);
+    lastWeekStart.setDate(thisWeekStart.getDate() - 7);
+
+    const lastWeekEnd = new Date(thisWeekStart);
+    lastWeekEnd.setDate(thisWeekStart.getDate() - 1);
+
+    // Filter this week's orders
+    const thisWeekOrders = orders.filter(order => {
+      const orderCity = order.customerSnapshot?.city?.toLowerCase();
+      const orderDate = new Date(order.createdAt);
+      return orderCity === distributorCity.toLowerCase() && orderDate >= thisWeekStart && orderDate <= today;
+    });
+
+    // Filter last week's orders
+    const lastWeekOrders = orders.filter(order => {
+      const orderCity = order.customerSnapshot?.city?.toLowerCase();
+      const orderDate = new Date(order.createdAt);
+      return orderCity === distributorCity.toLowerCase() && orderDate >= lastWeekStart && orderDate <= lastWeekEnd;
+    });
+
+    const thisWeekTotal = thisWeekOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+    const lastWeekTotal = lastWeekOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+
+    // Animate number
+    const totalSalesElem = document.getElementById("totalSalesWeekly");
+    if (totalSalesElem) animateNumber(totalSalesElem, thisWeekTotal);
+
+    // Calculate percentage difference
+    let percentChange = 0;
+    if (lastWeekTotal === 0) {
+      percentChange = thisWeekTotal > 0 ? 100 : 0;
+    } else {
+      percentChange = ((thisWeekTotal - lastWeekTotal) / lastWeekTotal) * 100;
+    }
+
+    // Update text
+    const percentElem = document.querySelector(".metric-card small.text-weekly");
+    if (percentElem) {
+      const sign = percentChange >= 0 ? "+" : "";
+      percentElem.textContent = `${sign}${percentChange.toFixed(1)}% vs last week`;
+      percentElem.style.color = percentChange >= 0 ? "green" : "red";
+    }
+
+  } catch (error) {
+    console.error(":fire: Error loading weekly sales:", error);
+  }
+}
+document.addEventListener("DOMContentLoaded", loadWeeklySales);
+</script>
+
+<!-- monthly sales on dashboard -->
+<script>
+async function loadMonthlySales() {
+  try {
+    const distributorCity = localStorage.getItem("city");
+    if (!distributorCity) return;
+
+    const response = await fetch("http://localhost:3001/amazon/document/api/orders");
+    if (!response.ok) throw new Error("Failed to fetch orders");
+    const orders = await response.json();
+
+    const today = new Date();
+    const currentMonth = today.getMonth();   // 0 = January
+    const currentYear = today.getFullYear();
+
+    // Previous month
+    const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+    const prevYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+
+    // This month's orders
+    const thisMonthOrders = orders.filter(order => {
+      const orderCity = order.customerSnapshot?.city?.toLowerCase();
+      const orderDate = new Date(order.createdAt);
+      return (
+        orderCity === distributorCity.toLowerCase() &&
+        orderDate.getMonth() === currentMonth &&
+        orderDate.getFullYear() === currentYear
+      );
+    });
+
+    // Last month's orders
+    const lastMonthOrders = orders.filter(order => {
+      const orderCity = order.customerSnapshot?.city?.toLowerCase();
+      const orderDate = new Date(order.createdAt);
+      return (
+        orderCity === distributorCity.toLowerCase() &&
+        orderDate.getMonth() === prevMonth &&
+        orderDate.getFullYear() === prevYear
+      );
+    });
+
+    const thisMonthTotal = thisMonthOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+    const lastMonthTotal = lastMonthOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+
+    // Animate number
+    const totalSalesElem = document.getElementById("totalSalesMonthly");
+    if (totalSalesElem) animateNumber(totalSalesElem, thisMonthTotal);
+
+    // Calculate percentage difference
+    let percentChange = 0;
+    if (lastMonthTotal === 0) {
+      percentChange = thisMonthTotal > 0 ? 100 : 0;
+    } else {
+      percentChange = ((thisMonthTotal - lastMonthTotal) / lastMonthTotal) * 100;
+    }
+
+    // Update text
+    const percentElem = document.querySelector(".metric-card small.text-monthly");
+    if (percentElem) {
+      const sign = percentChange >= 0 ? "+" : "";
+      percentElem.textContent = `${sign}${percentChange.toFixed(1)}% vs last month`;
+      percentElem.style.color = percentChange >= 0 ? "green" : "red";
+    }
+
+  } catch (error) {
+    console.error(":fire: Error loading monthly sales:", error);
+  }
+}
+document.addEventListener("DOMContentLoaded", loadMonthlySales);
+</script>
+
+
+ 
+
+<!-- load products on dashnoard function  -->
 <script>
   // Line Chart
   new Chart(document.getElementById('trendChart'), {
