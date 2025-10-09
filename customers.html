@@ -247,7 +247,7 @@
             <!-- all order section -->             
             <section id="AllorderTable shadow">
                 <!-- customer pagination  -->
-                <div class="">
+                <!-- <div class="">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item">
@@ -266,21 +266,20 @@
                             </li>
                         </ul>
                     </nav>
-                </div>
+                </div> -->
                 <!-- customer online user section  -->
-                <div class="row g-3 mb-4">
-                    <div class="d-flex align-items-center justify-content-between">
+                 <div class="row g-3 mb-4">
+                    <!-- <div class="d-flex align-items-center justify-content-between">
                         <p class="UserTag">Users</p>
                         <div class="d-flex align-items-center">
                             <p><i class="fa-solid fa-bars me-2" style="color: #171725;"></i></p>
                             <p><i class="fa-solid fa-bars me-2" style="color: #171725;"></i></p>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <!-- customer card section -->
                     
                     
-                    <div class="col-md-2">
+                    <!-- <div class="col-md-2">
                         <div class="metric-card" >
                             <img src="./images/cheerful-curly-man-with-bristle-points-left-wears-casual-clothes-spectacles 1.png" class="mb-2" alt="">
                             <div class="">
@@ -325,152 +324,55 @@
                                 <small class="mb-2 onlineSmalltag">Customer</small>
                             </div>
                         </div>
-                    </div> 
-                </div>
+                    </div>  -->
+
+                    
+
+
+
+
+
+
+
+                </div> 
 
                 <!-- customer change view  USERS (list/Grid) -->
-                <div class="d-flex align-items-center justify-content-between">
+                <!-- <div class="d-flex align-items-center justify-content-between">
                     <p class="UserTag">Users</p>
                     <div class="d-flex align-items-center">
                         <p><i class="fa-solid fa-bars me-2" style="color: #171725;"></i></p>
                         <p><i class="fa-solid fa-bars me-2" style="color: #171725;"></i></p>
                     </div>
+                </div> -->
+
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                <!-- Search -->
+                <div class="search-container">
+                    <i class="fa-solid fa-magnifying-glass me-2" id="searchIcon" style="cursor:pointer;"></i>
+                    <input type="text" id="searchInput" placeholder="Search users..." class="form-control d-inline-block" style="width: 200px; display:none;">
+                </div>
+
+                <!-- Pagination -->
+                <div>
+                    <button class="btn btn-sm btn-outline-secondary" id="prevPage">Prev</button>
+                    <span id="pageInfo" class="mx-2">Page 1</span>
+                    <button class="btn btn-sm btn-outline-secondary" id="nextPage">Next</button>
+                </div>
                 </div>
                 <!-- customer table section -->
-                <table class="table mt-3 customerTHEAD">
-                    <thead>
-                        <tr>
-                            <th> <input type="checkbox" class="me-2">User <i class="fa-solid fa-arrow-down ms-2" style="color: #d5ddeb;"></i></th>
-                            <th></i>Status</th>
-                            <th></i>Email</th>
-                            <th></i>Location</th>
-                            <th></i>Phone</th>
-                            <th><i class="fa-solid fa-ellipsis" style="color: #cbd3e1;"></i></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <input type="checkbox" class="me-2 boxChect">
-                                    <img src="./images/New Customers List (3).png" style="width: 25px;" alt="">
-                                    <div class="ms-2 custOmerPtag">
-                                        <small style="color: #171725;">Angelo Libero</small><br>
-                                        <small style="color: #8D98AF; font-size: 10px;" >@angelolibero</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><i class="fa-solid fa-circle me-2" style="color: #00A859;"></i>Active</td>
-                            <td>angelolivero@gmail.com</td>
-                            <td><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>Ikeja, Lagos</td>
-                            <td>+234 808 456 7890</td>
-                            <td><i class="fa-solid fa-ellipsis" style="color: #cbd3e1;"></i></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <input type="checkbox" class="me-2 boxChect">
-                                    <img src="./images/New Customers List (1).png" style="width: 25px;" alt="">
-                                    <div class="ms-2 custOmerPtag">
-                                        <small style="color: #171725;">Mahfuzul Islam Nabil</small><br>
-                                        <small style="color: #8D98AF; font-size: 10px;" >@mahfuzulnabil</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><i class="fa-solid fa-circle me-2" style="color: #00A859;"></i>Active</td>
-                            <td>mahfuzulna@gmail.com</td>
-                            <td><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>lekki, Lagos</td>
-                            <td>+234 808 456 7890</td>
-                            <td><i class="fa-solid fa-ellipsis" style="color: #cbd3e1;"></i></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <input type="checkbox" class="me-2 boxChect">
-                                    <img src="./images/New Customers List (2).png" style="width: 25px;" alt="">
-                                    <div class="ms-2 custOmerPtag">
-                                        <small style="color: #171725;">Jakir Hussen</small><br>
-                                        <small style="color: #8D98AF; font-size: 10px;" >@jakirhusen</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><i class="fa-solid fa-circle me-2" style="color: #a2f4dc;"></i>offline</td>
-                            <td>jakirhusen@gmail.com</td>
-                            <td><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>Maryland, Lagos</td>
-                            <td>+234 808 456 7890</td>
-                            <td><i class="fa-solid fa-ellipsis" style="color: #cbd3e1;"></i></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <input type="checkbox" class="me-2 boxChect">
-                                    <img src="./images/happy-smiling-handsome-man-against-blue-background.png" style="width: 25px;" alt="">
-                                    <div class="ms-2 custOmerPtag">
-                                        <small style="color: #171725;">Jubed Ahmed</small><br>
-                                        <small style="color: #8D98AF; font-size: 10px;" >@jubedahmed</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><i class="fa-solid fa-circle me-2" style="color: #00A859;"></i>Active</td>
-                            <td>jubed@gmail.com</td>
-                            <td><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>Ikeja, Lagos</td>
-                            <td>+234 808 456 7890</td>
-                            <td><i class="fa-solid fa-ellipsis" style="color: #cbd3e1;"></i></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <input type="checkbox" class="me-2 boxChect">
-                                    <img src="./images/portrait-african-american-man.png" style="width: 25px;" alt="">
-                                    <div class="ms-2 custOmerPtag">
-                                        <small style="color: #171725;">Tajul Islam</small><br>
-                                        <small style="color: #8D98AF; font-size: 10px;" >@angelolibero</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><i class="fa-solid fa-circle me-2" style="color: #a2f4dc;"></i>Offline</td>
-                            <td>tajulislam@gmail.com</td>
-                            <td><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>lekki, Lagos</td>
-                            <td>+234 808 456 7890</td>
-                            <td><i class="fa-solid fa-ellipsis" style="color: #cbd3e1;"></i></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <input type="checkbox" class="me-2 boxChect">
-                                    <img src="./images/User 41.png" style="width: 25px;" alt="">
-                                    <div class="ms-2 custOmerPtag">
-                                        <small style="color: #171725;">Delwor Hussen</small><br>
-                                        <small style="color: #8D98AF; font-size: 10px;" >@delworhussen</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><i class="fa-solid fa-circle me-2" style="color: #00A859;"></i>Active</td>
-                            <td>@delworhussen</td>
-                            <td><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>Mushin, Lagos</td>
-                            <td>+234 808 456 7890</td>
-                            <td><i class="fa-solid fa-ellipsis" style="color: #cbd3e1;"></i></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <input type="checkbox" class="me-2 boxChect">
-                                    <img src="./images/portrait-handsome-young-man-makes-okay-gesture-demonstrates-agreement-likes-idea-smiles-happily-wears-optical-glasses-yellow-hat-t-shirt-models-indoor-its-fine-thank-you-hand-sign.png" style="width: 25px;" alt="">
-                                    <div class="ms-2 custOmerPtag">
-                                        <small style="color: #171725;">Angelo Libero</small><br>
-                                        <small style="color: #8D98AF; font-size: 10px;" >@angelolibero</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><i class="fa-solid fa-circle me-2" style="color: #00A859;"></i>Active</td>
-                            <td>angelolivero@gmail.com</td>
-                            <td><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>epe, Lagos</td>
-                            <td>+234 808 456 7890</td>
-                            <td><i class="fa-solid fa-ellipsis" style="color: #cbd3e1;"></i></td>
-                        </tr>
-                        
-                    </tbody>
+               <table class="table align-middle mb-0 bg-white">
+                <thead>
+                    <tr>
+                    <th><input type="checkbox" class="me-2">User <i class="fa-solid fa-arrow-down ms-2" style="color: #D5DDEB;"></i></th>
+                    <th>Status</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Phone</th>
+                    <th><i class="fa-solid fa-ellipsis" style="color: #CBD3E1;"></i></th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody"></tbody>
                 </table>
             </section>
     
@@ -592,6 +494,173 @@
             </div>
         </div>
     </div>
+
+
+    <!-- customer modal popup section -->
+     <div class="modal fade" id="customerOrdersModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Order History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <!-- Body -->
+      <div class="modal-body">
+        <div id="customerInfo" class="mb-3"></div>
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-3">
+          <li class="nav-item"><a href="#" class="nav-link order-tab active" data-status="all">All Orders</a></li>
+          <li class="nav-item"><a href="#" class="nav-link order-tab" data-status="paid">Paid</a></li>
+          <li class="nav-item"><a href="#" class="nav-link order-tab" data-status="pending">Pending</a></li>
+          <li class="nav-item"><a href="#" class="nav-link order-tab" data-status="failed">Failed</a></li>
+        </ul>
+        <!-- Table -->
+        <div class="table-responsive">
+          <table class="table table-striped align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Order ID</th>
+                <th>Ordered Date</th>
+                <th>Product Name</th>
+                <th>Location</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="customerOrdersTableBody">
+              <tr><td colspan="6" class="text-center text-muted py-3">Click a customer to see orders</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <small id="paginationInfo" class="text-muted">Showing 0 of 0 items</small>
+          <nav>
+            <ul class="pagination pagination-sm mb-0" id="paginationControls"></ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+    <!-- <script>
+        async function loadDistributorUsers() {
+  try {
+    const distributorCity = localStorage.getItem("city");
+    if (!distributorCity) return console.warn("Distributor city not found in localStorage");
+    // Fetch all orders
+    const res = await fetch("http://localhost:3001/amazon/document/api/orders");
+    if (!res.ok) throw new Error("Failed to fetch orders");
+    const orders = await res.json();
+    // Filter orders by distributor’s city
+    const filteredOrders = orders.filter(order =>
+      order.customerSnapshot?.city?.toLowerCase() === distributorCity.toLowerCase()
+    );
+    const tbody = document.getElementById("usersTableBody");
+    tbody.innerHTML = "";
+    if (filteredOrders.length === 0) {
+      tbody.innerHTML = `
+        <tr><td colspan="6" class="text-center text-muted">No users found for ${distributorCity}</td></tr>
+      `;
+      return;
+    }
+    // Collect unique users
+    const uniqueUsers = {};
+    filteredOrders.forEach(order => {
+      const c = order.customerSnapshot;
+      if (c?.email && !uniqueUsers[c.email]) {
+        const fullName = `${c.firstName || ""} ${c.lastName || ""}`.trim();
+        uniqueUsers[c.email] = {
+          fullName: fullName || "Unknown User",
+          username: c.firstName ? c.firstName.toLowerCase() : "user",
+          email: c.email,
+          city: c.city || "N/A",
+          phone: c.phone || "N/A",
+          status: "Active", // default, since no status field in snapshot
+          image: "./images/New Customers List (3).png"
+        };
+      }
+    });
+    // Build rows
+    Object.values(uniqueUsers).forEach(user => {
+      const row = `
+        <tr>
+          <td>
+            <div class="d-flex align-items-center">
+              <img src="${user.image}" style="width: 25px;" alt="">
+              <div class="ms-2 custOmerPtag">
+                <small style="color: #171725;">${user.fullName}</small><br>
+                <small style="color: #8D98AF; font-size: 10px;">@${user.username}</small>
+              </div>
+            </div>
+          </td>
+          <td><i class="fa-solid fa-circle me-2" style="color: #00A859;"></i>${user.status}</td>
+          <td>${user.email}</td>
+          <td><i class="fa-solid fa-location-dot me-2" style="color: #9BACCA;"></i>${user.city}</td>
+          <td>${user.phone}</td>
+          <td><i class="fa-solid fa-ellipsis" style="color: #CBD3E1; cursor: pointer;"></i></td>
+        </tr>
+      `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    });
+  } catch (err) {
+    console.error("Error loading distributor users:", err);
+  }
+}
+document.addEventListener("DOMContentLoaded", loadDistributorUsers);
+    </script> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+      -
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

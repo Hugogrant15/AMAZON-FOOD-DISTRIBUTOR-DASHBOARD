@@ -202,80 +202,196 @@
       </div>
 
 
-<div class="container-fluid ">
-  <div class="row">
-    <!-- Sidebar -->
-    <div class="col-md-2 sidebar d-lg-block d-none ">
-        <ul class="listItem ">
-    <li">
-    <a href="index.html" class="active" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-house me-3"></i></span><span>Dashboard</span></a>
-    </li>
-    
-    <li>
-    <a href="./orders.html" class="" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-cart-shopping me-3"></i></span><span>Order</span></a>
-    </li>
-    <li>
-    <a href="./customers.html" style="text-decoration: none; color:#8D98AF;"><i class="fa-solid fa-user me-3"></i></span><span>Customers</span></a>
-    </li>
-    <li>
-        <a href="./inventory.html" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-warehouse me-3"></i></span><span>Inventory</span></a>
-    </li>
-    <li>
-        <a href="./notifications.html" style="text-decoration: none; color: #8D98AF;" ><i class="fa-solid fa-bell me-3"></i></span><span>Notification</span></a>
-    </li>
-    <hr>
-    <li class="">
-        <a href="#" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-message me-3"></i></span><span>Reviews</span></a>
-    </li>
-    <li class="">
-        <a href="#" style="text-decoration: none; color: #8D98AF;" ><i class="fa-solid fa-gear me-3"></i></span><span>settings</span></a>
-    </li>
-    
-
-    <button class="Dashbutton mt-5 " style="cursor: pointer;">
-    <a onclick="logout()" style="text-decoration: none; color:#8D98AF ; "><i class="fa-solid fa-arrow-right-from-bracket me-3"></i></span><span class="logspan">Logout</span></a>
-                </li>
-        </ul>
-    </div>
-
-    <!-- Main Content -->
-    <div class="col-md-10 p-4">
-        <section class="OrderSecT" >
-            <h1>orders</h1>
-            <!-- order section NAV  -->
-            <ul class="nav ">
-                <li class="nav-item me-5">
-                    <a class="nav-link"  aria-current="page" href="" onclick="AllorderTable(event)">All Orders</a>
-                </li>
-                <li class="nav-item me-5">
-                    <a class="nav-link" href="#" onclick="PendingorderTable(event)">Pending Orders</a>
-                </li>
-                <li class="nav-item me-5">
-                    <a class="nav-link" href="#" onclick="deliveredgorderTable(event)">Delivered Order</a>
-                </li>
-                <li class="nav-item me-5">
-                    <a class="nav-link " aria-disabled="true" onclick="cancelorderTable(event)">Cancelled Order</a>
-                </li>
-            </ul>
-
-            <!-- all order section -->             
-             <section id="AllorderTable">
-                <table class="table mt-3"  id="Allordertable">
-                    <thead class="">
-                        <tr>
-                            <th><i class="fa-solid fa-bars me-2" style="color: #1968F0;"></i>Order Id</th>
-                            <th><i class="fa-regular fa-calendar me-2" style="color: #ECA918;"></i>Ordered Date</th>
-                            <th><i class="fa-solid fa-warehouse me-2" style="color: #EEAD20;"></i>Product Name</th>
-                            <th><i class="fa-solid fa-location-dot me-2" style="color: #9BACCA;"></i>City</th>
-                            <th><i class="fa-solid fa-signal me-2" style="color: #74C0FC;"></i>Delivery status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+    <div class="container-fluid ">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar d-lg-block d-none ">
+            <ul class="listItem ">
+        <li">
+        <a href="index.html" class="active" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-house me-3"></i></span><span>Dashboard</span></a>
+        </li>
         
-                <!-- <table class="table mt-3"  >
+        <li>
+        <a href="./orders.html" class="" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-cart-shopping me-3"></i></span><span>Order</span></a>
+        </li>
+        <li>
+        <a href="./customers.html" style="text-decoration: none; color:#8D98AF;"><i class="fa-solid fa-user me-3"></i></span><span>Customers</span></a>
+        </li>
+        <li>
+            <a href="./inventory.html" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-warehouse me-3"></i></span><span>Inventory</span></a>
+        </li>
+        <li>
+            <a href="./notifications.html" style="text-decoration: none; color: #8D98AF;" ><i class="fa-solid fa-bell me-3"></i></span><span>Notification</span></a>
+        </li>
+        <hr>
+        <li class="">
+            <a href="#" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-message me-3"></i></span><span>Reviews</span></a>
+        </li>
+        <li class="">
+            <a href="#" style="text-decoration: none; color: #8D98AF;" ><i class="fa-solid fa-gear me-3"></i></span><span>settings</span></a>
+        </li>
+        
 
+        <button class="Dashbutton mt-5 " style="cursor: pointer;">
+        <a onclick="logout()" style="text-decoration: none; color:#8D98AF ; "><i class="fa-solid fa-arrow-right-from-bracket me-3"></i></span><span class="logspan">Logout</span></a>
+                    </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-10 p-4">
+            <section class="OrderSecT" >
+                <h1>orders</h1>
+                <!-- order section NAV  -->
+                <ul class="nav ">
+                    <li class="nav-item me-5">
+                        <a class="nav-link"  aria-current="page" href="" onclick="AllorderTable(event)">All Orders</a>
+                    </li>
+                    <li class="nav-item me-5">
+                        <a class="nav-link" href="#" onclick="PendingorderTable(event)">Pending Orders</a>
+                    </li>
+                    <li class="nav-item me-5">
+                        <a class="nav-link" href="#" onclick="deliveredgorderTable(event)">Delivered Order</a>
+                    </li>
+                    <li class="nav-item me-5">
+                        <a class="nav-link " aria-disabled="true" onclick="cancelorderTable(event)">Cancelled Order</a>
+                    </li>
+                </ul>
+
+                <!-- all order section -->             
+                <section id="AllorderTable">
+                    <div class="table-responsive-lg">
+                    <table class="table mt-3 align-middle table-lg "  id="Allordertable">
+                        <thead class="">
+                            <tr>
+                                <th><i class="fa-solid fa-bars me-2" style="color: #1968F0;"></i>Order Id</th>
+                                <th><i class="fa-regular fa-calendar me-2" style="color: #ECA918;"></i>Ordered Date</th>
+                                <th><i class="fa-solid fa-warehouse me-2" style="color: #EEAD20;"></i>Product Name</th>
+                                <th><i class="fa-solid fa-location-dot me-2" style="color: #9BACCA;"></i>City</th>
+                                <th><i class="fa-solid fa-signal me-2" style="color: #74C0FC;"></i>Delivery status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    </div>
+            
+                    <!-- <table class="table mt-3"  >
+
+                        <thead class="">
+                            <tr>
+                                <th><i class="fa-solid fa-bars me-2" style="color: #1968f0;"></i>Order Id</th>
+                                <th><i class="fa-regular fa-calendar me-2" style="color: #eca918;"></i>Ordered Date</th>
+                                <th><i class="fa-solid fa-warehouse me-2" style="color: #eead20;"></i>Product Name</th>
+                                <th><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>Location</th>
+                                <th><i class="fa-solid fa-signal me-2" style="color: #74C0FC;"></i>status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>#123245</td>
+                                <td>14-12-2022</td>
+                                <td>Berry Bliss Bites</td>
+                                <td>Ikeja</td>
+                                <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                            </tr>
+                            <tr>
+                                <td>#875458</td>
+                                <td>21-05-2021</td>
+                                <td>Organic Almond Delight</td>
+                                <td>Somolu</td>
+                                <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+                            </tr>
+                            <tr>
+                                <td>#125478</td>
+                                <td>21-05-2021</td>
+                                <td>Berry Bliss Bites</td>
+                                <td>Oshodi</td>
+                                <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                            </tr>
+                            <tr>
+                                <td>#248759</td>
+                                <td>21-05-2021</td>
+                                <td>Organic Almond Delight</td>
+                                <td>Ibeju-Lekki</td>
+                                <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
+                            </tr>
+                            <tr>
+                                <td>#248759</td>
+                                <td>21-05-2021</td>
+                                <td>Organic Almond Delight</td>
+                                <td>Ibeju-Lekki</td>
+                                <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                            </tr>
+                            <tr>
+                                <td>#248759</td>
+                                <td>21-05-2021</td>
+                                <td>Organic Almond Delight</td>
+                                <td>Ibeju-Lekki</td>
+                                <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+                            </tr>
+                            <tr>
+                                <td>#248759</td>
+                                <td>21-05-2021</td>
+                                <td>Organic Almond Delight</td>
+                                <td>Ibeju-Lekki</td>
+                                <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                            </tr>
+                            <tr>
+                                <td>#248759</td>
+                                <td>21-05-2021</td>
+                                <td>Organic Almond Delight</td>
+                                <td>Ibeju-Lekki</td>
+                                <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+                            </tr>
+                            <tr>
+                                <td>#248759</td>
+                                <td>21-05-2021</td>
+                                <td>Organic Almond Delight</td>
+                                <td>Ibeju-Lekki</td>
+                                <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                            </tr>
+                            <tr>
+                                <td>#248759</td>
+                                <td>21-05-2021</td>
+                                <td>Organic Almond Delight</td>
+                                <td>Ibeju-Lekki</td>
+                                <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="PaginaTION">Showing 1 to 10 items</span>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                    <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div> -->
+                </section> 
+            
+            </section>
+
+            <!-- pending order section -->
+            <!-- <section id="PendingorderTable">
+                <table class="table mt-3">
                     <thead class="">
                         <tr>
                             <th><i class="fa-solid fa-bars me-2" style="color: #1968f0;"></i>Order Id</th>
@@ -292,21 +408,21 @@
                             <td>14-12-2022</td>
                             <td>Berry Bliss Bites</td>
                             <td>Ikeja</td>
-                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
                         </tr>
                         <tr>
                             <td>#875458</td>
                             <td>21-05-2021</td>
                             <td>Organic Almond Delight</td>
                             <td>Somolu</td>
-                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
                         </tr>
                         <tr>
                             <td>#125478</td>
                             <td>21-05-2021</td>
                             <td>Berry Bliss Bites</td>
                             <td>Oshodi</td>
-                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
                         </tr>
                         <tr>
                             <td>#248759</td>
@@ -320,14 +436,14 @@
                             <td>21-05-2021</td>
                             <td>Organic Almond Delight</td>
                             <td>Ibeju-Lekki</td>
-                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
                         </tr>
                         <tr>
                             <td>#248759</td>
                             <td>21-05-2021</td>
                             <td>Organic Almond Delight</td>
                             <td>Ibeju-Lekki</td>
-                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
 
                         </tr>
                         <tr>
@@ -335,14 +451,14 @@
                             <td>21-05-2021</td>
                             <td>Organic Almond Delight</td>
                             <td>Ibeju-Lekki</td>
-                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
                         </tr>
                         <tr>
                             <td>#248759</td>
                             <td>21-05-2021</td>
                             <td>Organic Almond Delight</td>
                             <td>Ibeju-Lekki</td>
-                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
 
                         </tr>
                         <tr>
@@ -350,7 +466,7 @@
                             <td>21-05-2021</td>
                             <td>Organic Almond Delight</td>
                             <td>Ibeju-Lekki</td>
-                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
                         </tr>
                         <tr>
                             <td>#248759</td>
@@ -382,525 +498,547 @@
                             </li>
                         </ul>
                     </nav>
-                </div> -->
-            </section> 
-        
-        </section>
+                </div>
+            </section> -->
 
-        <!-- pending order section -->
-        <!-- <section id="PendingorderTable">
-            <table class="table mt-3">
-                <thead class="">
-                    <tr>
-                        <th><i class="fa-solid fa-bars me-2" style="color: #1968f0;"></i>Order Id</th>
-                        <th><i class="fa-regular fa-calendar me-2" style="color: #eca918;"></i>Ordered Date</th>
-                        <th><i class="fa-solid fa-warehouse me-2" style="color: #eead20;"></i>Product Name</th>
-                        <th><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>Location</th>
-                        <th><i class="fa-solid fa-signal me-2" style="color: #74C0FC;"></i>status</th>
-                    </tr>
-                </thead>
+            <!-- delivered order section -->
+            <!-- <section id="deliveredgorderTable">
+                <table class="table mt-3">
+                    <thead class="">
+                        <tr>
+                            <th><i class="fa-solid fa-bars me-2" style="color: #1968f0;"></i>Order Id</th>
+                            <th><i class="fa-regular fa-calendar me-2" style="color: #eca918;"></i>Ordered Date</th>
+                            <th><i class="fa-solid fa-warehouse me-2" style="color: #eead20;"></i>Product Name</th>
+                            <th><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>Location</th>
+                            <th><i class="fa-solid fa-signal me-2" style="color: #74C0FC;"></i>status</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <tr>
-                        <td>#123245</td>
-                        <td>14-12-2022</td>
-                        <td>Berry Bliss Bites</td>
-                        <td>Ikeja</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
-                    </tr>
-                    <tr>
-                        <td>#875458</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Somolu</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
-                    </tr>
-                    <tr>
-                        <td>#125478</td>
-                        <td>21-05-2021</td>
-                        <td>Berry Bliss Bites</td>
-                        <td>Oshodi</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
+                    <tbody>
+                        <tr>
+                            <td>#123245</td>
+                            <td>14-12-2022</td>
+                            <td>Berry Bliss Bites</td>
+                            <td>Ikeja</td>
+                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                        </tr>
+                        <tr>
+                            <td>#875458</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Somolu</td>
+                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                        </tr>
+                        <tr>
+                            <td>#125478</td>
+                            <td>21-05-2021</td>
+                            <td>Berry Bliss Bites</td>
+                            <td>Oshodi</td>
+                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
 
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
 
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #260af5;"></i>Pending</td>
-                    </tr>
-                </tbody>
-             </table>
-             <div class="d-flex align-items-center justify-content-between">
-                <span class="PaginaTION">Showing 1 to 10 items</span>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex align-items-center justify-content-between">
+                    <span class="PaginaTION">Showing 1 to 10 items</span>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
                             <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-             </div>
-        </section> -->
-
-        <!-- delivered order section -->
-         <!-- <section id="deliveredgorderTable">
-            <table class="table mt-3">
-                <thead class="">
-                    <tr>
-                        <th><i class="fa-solid fa-bars me-2" style="color: #1968f0;"></i>Order Id</th>
-                        <th><i class="fa-regular fa-calendar me-2" style="color: #eca918;"></i>Ordered Date</th>
-                        <th><i class="fa-solid fa-warehouse me-2" style="color: #eead20;"></i>Product Name</th>
-                        <th><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>Location</th>
-                        <th><i class="fa-solid fa-signal me-2" style="color: #74C0FC;"></i>status</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>#123245</td>
-                        <td>14-12-2022</td>
-                        <td>Berry Bliss Bites</td>
-                        <td>Ikeja</td>
-                        <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
-                    </tr>
-                    <tr>
-                        <td>#875458</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Somolu</td>
-                        <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
-                    </tr>
-                    <tr>
-                        <td>#125478</td>
-                        <td>21-05-2021</td>
-                        <td>Berry Bliss Bites</td>
-                        <td>Oshodi</td>
-                        <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
-
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
-
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-circle-check me-2" style="color: #64cb10;"></i>delivered</td>
-                    </tr>
-                </tbody>
-             </table>
-             <div class="d-flex align-items-center justify-content-between">
-                <span class="PaginaTION">Showing 1 to 10 items</span>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
                             </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </section> -->
+
+            <!-- cancelled order section -->
+            <!-- <section id="cancelorderTable">
+                <table class="table mt-3">
+                    <thead class="">
+                        <tr>
+                            <th><i class="fa-solid fa-bars me-2" style="color: #1968f0;"></i>Order Id</th>
+                            <th><i class="fa-regular fa-calendar me-2" style="color: #eca918;"></i>Ordered Date</th>
+                            <th><i class="fa-solid fa-warehouse me-2" style="color: #eead20;"></i>Product Name</th>
+                            <th><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>Location</th>
+                            <th><i class="fa-solid fa-signal me-2" style="color: #74C0FC;"></i>status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>#123245</td>
+                            <td>14-12-2022</td>
+                            <td>Berry Bliss Bites</td>
+                            <td>Ikeja</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+                        </tr>
+                        <tr>
+                            <td>#875458</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Somolu</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+                        </tr>
+                        <tr>
+                            <td>#125478</td>
+                            <td>21-05-2021</td>
+                            <td>Berry Bliss Bites</td>
+                            <td>Oshodi</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+                        </tr>
+                        <tr>
+                            <td>#248759</td>
+                            <td>21-05-2021</td>
+                            <td>Organic Almond Delight</td>
+                            <td>Ibeju-Lekki</td>
+                            <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex align-items-center justify-content-between">
+                    <span class="PaginaTION">Showing 1 to 10 items</span>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
                             <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-             </div>
-        </section> -->
-
-        <!-- cancelled order section -->
-         <!-- <section id="cancelorderTable">
-            <table class="table mt-3">
-                <thead class="">
-                    <tr>
-                        <th><i class="fa-solid fa-bars me-2" style="color: #1968f0;"></i>Order Id</th>
-                        <th><i class="fa-regular fa-calendar me-2" style="color: #eca918;"></i>Ordered Date</th>
-                        <th><i class="fa-solid fa-warehouse me-2" style="color: #eead20;"></i>Product Name</th>
-                        <th><i class="fa-solid fa-location-dot me-2" style="color: #9bacca;"></i>Location</th>
-                        <th><i class="fa-solid fa-signal me-2" style="color: #74C0FC;"></i>status</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>#123245</td>
-                        <td>14-12-2022</td>
-                        <td>Berry Bliss Bites</td>
-                        <td>Ikeja</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
-
-                    </tr>
-                    <tr>
-                        <td>#875458</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Somolu</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
-
-                    </tr>
-                    <tr>
-                        <td>#125478</td>
-                        <td>21-05-2021</td>
-                        <td>Berry Bliss Bites</td>
-                        <td>Oshodi</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
-
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
-
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
-
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
-
-
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
-
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
-
-
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
-
-                    </tr>
-                    <tr>
-                        <td>#248759</td>
-                        <td>21-05-2021</td>
-                        <td>Organic Almond Delight</td>
-                        <td>Ibeju-Lekki</td>
-                        <td><i class="fa-solid fa-ban me-2" style="color: #c8142f;"></i>Cancelled</td>
-
-                    </tr>
-                </tbody>
-             </table>
-             <div class="d-flex align-items-center justify-content-between">
-                <span class="PaginaTION">Showing 1 to 10 items</span>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
                             </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-             </div>
-        </section> -->
+                        </ul>
+                    </nav>
+                </div>
+            </section> -->
 
-        <!-- <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-4 ">
-                <div class="card shadow border-0">
-                    <img src="./images/Image1.png" alt="">
-                    <div class="p-3">
-                    <p>Berry Bliss Bites</p>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p>Quantity - 1</p>
-                        <p>750</p>
+            <!-- <div class="row">
+                <div class="col-sm-12 col-md-4 col-lg-4 ">
+                    <div class="card shadow border-0">
+                        <img src="./images/Image1.png" alt="">
+                        <div class="p-3">
+                        <p>Berry Bliss Bites</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>Quantity - 1</p>
+                            <p>750</p>
+                        </div>
+                        </div>
                     </div>
+                    <div class="card shadow border-0 mt-3">
+                        <img src="./images/Image3.png" alt="">
+                        <div class="p-3">
+                        <p>Berry Bliss Bites</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>Quantity - 1</p>
+                            <p>750</p>
+                        </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card shadow border-0 mt-3">
-                    <img src="./images/Image3.png" alt="">
-                    <div class="p-3">
-                    <p>Berry Bliss Bites</p>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p>Quantity - 1</p>
-                        <p>750</p>
+
+                <div class="col-sm-12 col-md-4 col-lg-4 ">
+                    <div class="card shadow border-0">
+                        <img src="./images/image 13.png" alt="">
+                        <div class="p-3">
+                        <p>Berry Bliss Bites</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>Quantity - 1</p>
+                            <p>750</p>
+                        </div>
+                        </div>
                     </div>
+                    <div class="card shadow border-0 mt-3">
+                        <img src="./images/image 11.png" alt="">
+                        <div class="p-3">
+                        <p>Berry Bliss Bites</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>Quantity - 1</p>
+                            <p>750</p>
+                        </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-sm-12 col-md-4 col-lg-4 ">
-                <div class="card shadow border-0">
-                    <img src="./images/image 13.png" alt="">
-                    <div class="p-3">
-                    <p>Berry Bliss Bites</p>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p>Quantity - 1</p>
-                        <p>750</p>
-                    </div>
-                    </div>
+                <div class="col-sm-12 col-md-4 col-lg-4 shadow">
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                        <h6>Customer Information</h6>
+                        <i class="fa-solid fa-ellipsis" style="color: #cbd3e1;"></i>
                 </div>
-                <div class="card shadow border-0 mt-3">
-                    <img src="./images/image 11.png" alt="">
-                    <div class="p-3">
-                    <p>Berry Bliss Bites</p>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p>Quantity - 1</p>
-                        <p>750</p>
-                    </div>
-                    </div>
+                    <div class="text-center">
+                        <img src="./images/Image (6).png" alt="">
+                        <h5>Michael Owen</h5>
+                        <p>saikatkr034@gmail.com</p>
+                        <p>+234 7047 487 899</p>
+                        </div>
+                        <hr>
+                        <div class="div">
+                            <h5>Shipping Address</h5>
+                            <p>39, Maryland Shopping Mall<br> ikeja lagos Nigeria</p>
+                        </div>
+                        <div class="div">
+                            <h5>Billing Address</h5>
+                            <p>39, Maryland Shopping Mall<br> ikeja lagos Nigeria</p>
+                        </div>
                 </div>
-            </div>
-
-            <div class="col-sm-12 col-md-4 col-lg-4 shadow">
-               <div class="d-flex align-items-center justify-content-between mt-3">
-                    <h6>Customer Information</h6>
-                    <i class="fa-solid fa-ellipsis" style="color: #cbd3e1;"></i>
-               </div>
-                <div class="text-center">
-                    <img src="./images/Image (6).png" alt="">
-                    <h5>Michael Owen</h5>
-                    <p>saikatkr034@gmail.com</p>
-                    <p>+234 7047 487 899</p>
-                    </div>
-                    <hr>
-                    <div class="div">
-                        <h5>Shipping Address</h5>
-                        <p>39, Maryland Shopping Mall<br> ikeja lagos Nigeria</p>
-                    </div>
-                    <div class="div">
-                        <h5>Billing Address</h5>
-                        <p>39, Maryland Shopping Mall<br> ikeja lagos Nigeria</p>
-                    </div>
-            </div>
 
 
-        </div> -->
+            </div> -->
+        </div>
     </div>
-  </div>
-</div>
+    </div>
 
 
-        <script>
-            async function loadDistributorOrders() {
-console.log(":white_tick: Loading distributor orders...");
-try {
-// :one: Get distributor's city from localStorage
-const distributorCity = localStorage.getItem("city");
-if (!distributorCity) {
-console.warn("No distributor city found in localStorage");
-return;
-}
-// :two: Fetch all orders
-const response = await fetch("http://localhost:3001/amazon/document/api/orders");
-if (!response.ok) throw new Error("Failed to fetch orders");
-const orders = await response.json();
-console.log(":package: Orders received:", orders);
-// :three: Filter orders by distributor's city (nested in customerSnapshot)
-const cityOrders = orders.filter(
-order => order.customerSnapshot?.city?.toLowerCase() === distributorCity.toLowerCase()
-);
-console.log(`:magnifying_glass: Orders in city (${distributorCity}):`, cityOrders);
-// :four: Populate table
-const tbody = document.querySelector("#Allordertable tbody");
-tbody.innerHTML = "";
-if (cityOrders.length === 0) {
-tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No orders in your city</td></tr>`;
-return;
-}
-cityOrders.forEach((order) => {
-const row = document.createElement("tr");
-// Join all product names in the order
-    const productNames = order.items?.map(item => item.name || "Unnamed")?.join(", ") || "N/A";
-row.innerHTML = `
-<td>${order._id || "N/A"}</td>
-<td>${new Date(order.createdAt).toLocaleDateString() || "N/A"}</td>
-<td>${productNames}</td>
-<td>${order.customerSnapshot?.city || "N/A"}</td>
-<td>${order.deliveryStatus || "N/A"}</td>
-`;
-tbody.appendChild(row);
-});
-console.log(":white_tick: Distributor orders table updated!");
-} catch (error) {
-console.error(":fire: Error loading distributor orders:", error);
-}
-}
-// Call this when the page loads
-document.addEventListener("DOMContentLoaded", loadDistributorOrders);
-        </script>
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" id="orderModalLabel">Order Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="orderDetailsContent"></div>
+            </div>
+            </div>
+        </div>
+    </div>
 
 
 
-
-
-
-
-<script>
-  // Line Chart
-  new Chart(document.getElementById('trendChart'), {
-    type: 'line',
-    data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun'],
-      datasets: [
-        {label:'Orders', data:[200,250,180,300,270,350], borderColor:'#28a745', fill:false},
-        {label:'Revenue', data:[300,400,350,500,450,600], borderColor:'#dc3545', fill:false}
-      ]
+    // oderdetails for each orders
+    <script>
+    async function loadDistributorOrders() {
+  console.log("✅ Loading distributor orders...");
+  try {
+    // 1. Get distributor's city
+    const distributorCity = localStorage.getItem("city");
+    if (!distributorCity) {
+      console.warn("No distributor city found in localStorage");
+      return;
     }
-  });
 
-  // Bar Chart
-  new Chart(document.getElementById('visitChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-      datasets: [{label:'Visits', data:[120,150,180,200,170,140,190], backgroundColor:'#0d6efd'}]
+    // 2. Fetch all orders
+    const response = await fetch("http://localhost:3001/amazon/document/api/orders");
+    if (!response.ok) throw new Error("Failed to fetch orders");
+    const orders = await response.json();
+    console.log("📦 Orders received:", orders);
+
+    // 3. Filter by city
+    const cityOrders = orders.filter(
+      order => order.customerSnapshot?.city?.toLowerCase() === distributorCity.toLowerCase()
+    );
+    console.log(`🔍 Orders in city (${distributorCity}):`, cityOrders);
+
+    // 4. Save orders globally (for modal usage)
+    window.currentOrders = cityOrders;
+
+    // 5. Populate table
+    const tbody = document.querySelector("#Allordertable tbody");
+    tbody.innerHTML = "";
+    if (cityOrders.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No orders in your city</td></tr>`;
+      return;
     }
-  });
 
-  // Doughnut Chart
-  new Chart(document.getElementById('productChart'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Berry Bites','Organic Almond Delight','Coconut Crunch'],
-      datasets: [{data:[45,32,23], backgroundColor:['#0d6efd','#20c997','#ffc107']}]
-    }
-  });
+    cityOrders.forEach((order) => {
+      const row = document.createElement("tr");
+      row.setAttribute("data-order-id", order._id);
 
-    
-</script>
+      const productNames = order.items?.map(item => item.name || "Unnamed")?.join(", ") || "N/A";
+
+      row.innerHTML = `
+        <td>${order._id || "N/A"}</td>
+        <td>${new Date(order.createdAt).toLocaleDateString() || "N/A"}</td>
+        <td>${productNames}</td>
+        <td>${order.customerSnapshot?.city || "N/A"}</td>
+        <td>${order.deliveryStatus || "N/A"}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    console.log("✅ Distributor orders table updated!");
+  } catch (error) {
+    console.error("🔥 Error loading distributor orders:", error);
+  }
+}
+
+        // Call this when page loads
+        document.addEventListener("DOMContentLoaded", loadDistributorOrders);
 
 
-<script src="./index.js"></script>
+        // ✅ Show order modal
+        function showOrderModal(order) {
+        const modalContent = document.getElementById("orderDetailsContent");
+        const customer = order.customerSnapshot || {};
+
+        // Build product cards
+        const itemsHTML = order.items
+            .map(
+            (item) => `
+                <div class="col-md-6 mb-4">
+                <div class="card product-card">
+                    <img src="${item.image || 'https://via.placeholder.com/400x300?text=No+Image'}"
+                        class="card-img-top"
+                        alt="${item.name}">
+                    <div class="card-body">
+                    <h6 class="fw-bold mb-1">${item.name}</h6>
+                    <p class="text-muted small mb-1">Quantity – ${item.quantity || 1}</p>
+                    <h6 class="text-success fw-semibold">
+                        ₦${item.price?.toLocaleString() || 0}
+                    </h6>
+                    </div>
+                </div>
+                </div>
+            `
+            )
+            .join("");
+
+        // Build modal body
+        modalContent.innerHTML = `
+            <div class="order-header d-flex justify-content-between align-items-center">
+            <div><strong>#${order._id}</strong></div>
+            <div>
+                <span class="badge ${order.deliveryStatus === "Delivered" ? "bg-success" : "bg-warning text-dark"}">
+                ${order.deliveryStatus || "Pending"}
+                </span>
+            </div>
+            </div>
+            <div class="row g-4">
+            <!-- Left: Product Section -->
+            <div class="col-lg-8">
+                <div class="row">${itemsHTML}</div>
+            </div>
+            <!-- Right: Customer Info -->
+            <div class="col-lg-4">
+                <div class="card customer-card p-3">
+                <h6 class="fw-bold mb-3">Customer Information</h6>
+                <div class="text-center customer-info">
+                    <img src="${
+                    customer.profileImage ||
+                    "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-image-182145777.jpg"
+                    }" alt="Customer photo">
+                    <h6>${customer.firstName || "Unknown Customer"}</h6>
+                    <p>${customer.email || "No email provided"}</p>
+                    <p>${customer.phone || "No phone number"}</p>
+                </div>
+                <hr>
+                <div>
+                    <p><strong>Shipping Address</strong><br>${customer.address || "N/A"}</p>
+                    <p><strong>Billing Address</strong><br>${customer.address || "N/A"}</p>
+                </div>
+                <hr>
+                <button
+                    class="btn ${order.deliveryStatus === "Delivered" ? "btn-secondary" : "btn-success"} w-100 mt-2"
+                    id="markDeliveredBtn"
+                    ${order.deliveryStatus === "Delivered" ? "disabled" : ""}
+                >
+                    ${
+                    order.deliveryStatus === "Delivered"
+                        ? '<i class="fa-solid fa-check me-2"></i>Delivered'
+                        : '<i class="fa-solid fa-check me-2"></i>Mark as Delivered'
+                    }
+                </button>
+                </div>
+            </div>
+            </div>
+        `;
+
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById("orderModal"));
+        modal.show();
+
+        // ✅ Handle "Mark Delivered"
+        const deliveredBtn = document.getElementById("markDeliveredBtn");
+        if (deliveredBtn && order.deliveryStatus !== "Delivered") {
+            deliveredBtn.addEventListener("click", async () => {
+            try {
+                const res = await fetch(
+                `http://localhost:3001/amazon/document/api/orders/${order._id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ deliveryStatus: "Delivered" }),
+                }
+                );
+                if (!res.ok) throw new Error("Failed to update status");
+
+                // Update locally
+                order.deliveryStatus = "Delivered";
+                deliveredBtn.disabled = true;
+                deliveredBtn.classList.remove("btn-success");
+                deliveredBtn.classList.add("btn-secondary");
+                deliveredBtn.innerHTML = '<i class="fa-solid fa-check me-2"></i>Delivered';
+
+                // Refresh orders in table
+                await loadDistributorOrders();
+
+                Swal.fire({
+                icon: "success",
+                title: "Order delivered!",
+                text: `Order #${order._id} has been marked as delivered.`,
+                confirmButtonColor: "#198754",
+                });
+            } catch (error) {
+                console.error(error);
+                Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Failed to update order status.",
+                });
+            }
+            });
+        }
+        }
+
+        // ✅ Attach row click event globally
+        document.addEventListener("click", (e) => {
+        const row = e.target.closest("tr[data-order-id]");
+        if (!row) return;
+
+        const orderId = row.getAttribute("data-order-id");
+        const order = window.currentOrders?.find(o => o._id === orderId);
+        if (order) {
+            showOrderModal(order);
+        }
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="./index.js"></script>
 </body>
 </html>

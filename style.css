@@ -325,7 +325,7 @@ body {
     font-weight: 600;
     line-height: 100%;
     color: #171725;
-    padding: 20px !important;
+    padding: 15px !important;
 }
 
 
@@ -335,7 +335,7 @@ table td, .PaginaTION {
     font-weight: 400;
     line-height: 100%;
     color: #171725;
-    padding: 20px !important;
+    padding: 15px !important;
 }
 
 #PendingorderTable, #deliveredgorderTable, #cancelorderTable {
@@ -598,3 +598,46 @@ form label {
   background-color: #e9ecef;
 }
 
+
+.order-header {
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-bottom: 2px solid #F0F0F0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+.product-card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+.product-card:hover {
+  transform: translateY(-3px);
+}
+.product-card img {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  height: 150px;
+  object-fit: cover;
+}
+.customer-card {
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.customer-card img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 3px solid #E4E4E4;
+}
+.customer-info h6 {
+  margin-top: 10px;
+  font-weight: 600;
+}
+.customer-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}

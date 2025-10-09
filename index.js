@@ -1,121 +1,4 @@
 
-// function distributorLogin(event) {
-//     event.preventDefault();
-
-//     const spinItem = document.querySelector('.spin2')
-//     spinItem.style.display = "inline-block";
-
-//     // const getPageModal = document.querySelector(".pagemodal");
-//     // getPageModal.style.display = "block";
-
-//     const getEmail = document.getElementById('email').value;
-//     const getPass = document.getElementById('password').value;
-    
-
-    
-//     if (getEmail === '' || getPass === '') {
-//     Swal.fire({
-//       icon: 'info',
-//       text: 'All fields are required!',
-//       confirmButtonColor: "#2D85DE"
-//     })
-//     spinItem.style.display = "none";
-//     return;
-//     }
-
-//     else {
-//         // convert to raw data
-//         const signData = {
-//             email: getEmail,
-//             password: getPass
-//         }
-
-//         const signMethod = {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(signData)
-//         }
-
-//         const url = 'http://localhost:3001/amazon/document/api/login';
-//         // callimg the api
-//         fetch(url, signMethod)
-//         .then(response => response.json())
-//         .then(result => {
-//             console.log(result)
-           
-//            console.log(result)
-//             if (result.success || result.token ) {
-//                 localStorage.setItem("key", result.token)
-//                 localStorage.setItem("customerloginid", result._id)
-//                 const currentId = localStorage.getItem('customerloginid')
-//                 const previousId = localStorage.getItem('customerid')
-
-//                 const tokenParts = result.token.split(".");
-//                 const payload = JSON.parse(atob(tokenParts[1]));
-
-//                 if (!payload.isDistributor) {
-//                 Swal.fire({
-//                     icon: 'error',
-//                     text: `Only distributors are allowed to login here.`,
-//                     confirmButtonColor: "#2D85DE"
-//                 });
-//                 spinItem.style.display = "none";
-//                 return;
-//                 }
-
-//                 // Save distributor session
-//                 localStorage.setItem("key", result.token);
-//                 localStorage.setItem("customerloginid", result._id);
-
-
-//                 if( previousId !== currentId) {
-//                     Swal.fire({
-//                     icon: 'info',
-//                     text: `Youre Logging In With a Different Account`,
-//                     confirmButtonColor: "#2D85DE"
-//                 })
-//                 setTimeout(() => {
-                    
-//                 }, 1000)
-//                 }
-
-//                 Swal.fire({
-//                     icon: 'success',
-//                     text: `Login Sucessful`,
-//                     confirmButtonColor: "#2D85DE"
-//                 })
-//                 setTimeout(() => {
-//                     location.href = "./index.html";
-//                     // getPageModal.style.display = "none";
-
-//                 }, 3000)
-//                 localStorage.setItem("customerid", currentId );
-//             }
-            
-//             else {
-//                 Swal.fire({
-//                     icon: 'info',
-//                     text: result.message || 'Registration Failed',
-//                     confirmButtonColor: "#2D85DE"
-//                 })
-//                 spinItem.style.display = "none";
-//             }
-//         })
-//         .catch(error => {
-//             console.log('error', error)
-//             Swal.fire({
-//                 icon: 'info',
-//                 text: `Something Went wrong, Try Again`,
-//                 confirmButtonColor: "#2D85DE"
-//             })
-//             spinItem.style.display = "none";
-//         });
-//     }
-
-// }
-
 function distributorLogin(event) {
     event.preventDefault();
 
@@ -316,8 +199,6 @@ async function loadProductsForDashboard() {
 document.addEventListener("DOMContentLoaded", loadProductsForDashboard);
 
 
-
-
 function toggleNotification(event) {
     event.preventDefault();
     const notificationPopUp = document.getElementById('notificationPopUp');
@@ -390,6 +271,572 @@ async function loadProducts() {
 }
 // Call when the page loads
 document.addEventListener("DOMContentLoaded", loadProducts);
+
+
+
+
+// function to load customers by distributor location 
+
+let allUsers = [];   // store all unique users
+let currentPage = 1;
+const pageSize = 5;  // rows per page
+
+async function loadDistributorUsers() {
+  try {
+    const distributorCity = localStorage.getItem("city");
+    if (!distributorCity) return console.warn("Distributor city not found");
+
+    const res = await fetch("http://localhost:3001/amazon/document/api/orders");
+    if (!res.ok) throw new Error("Failed to fetch orders");
+    const orders = await res.json();
+
+    const filteredOrders = orders.filter(order =>
+      order.customerSnapshot?.city?.toLowerCase() === distributorCity.toLowerCase()
+    );
+
+    if (filteredOrders.length === 0) {
+      document.getElementById("usersTableBody").innerHTML =
+        `<tr><td colspan="6" class="text-center text-muted">No users found for ${distributorCity}</td></tr>`;
+      return;
+    }
+
+    // Unique users
+    const uniqueUsers = {};
+    filteredOrders.forEach(order => {
+      const c = order.customerSnapshot;
+      if (c?.email && !uniqueUsers[c.email]) {
+        uniqueUsers[c.email] = {
+          fullName: `${c.firstName || ""} ${c.lastName || ""}`.trim(),
+          email: c.email,
+          city: c.city,
+          phone: c.phone,
+          image: "./images/New Customers List (3).png"
+        };
+      }
+    });
+
+    // Fetch status
+    const userEmails = Object.keys(uniqueUsers);
+    const statusRes = await fetch("http://localhost:3001/amazon/document/api/register/get-last-seen", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ emails: userEmails })
+    });
+    const statusData = await statusRes.json();
+
+    // Save in global array
+    allUsers = Object.values(uniqueUsers).map(user => {
+      const lastSeen = statusData[user.email] || 0;
+      const isOnline = Date.now() - lastSeen < 1000 * 60 * 5;
+      return { ...user, isOnline };
+    });
+
+    renderTable();
+  } catch (err) {
+    console.error("Error loading distributor users:", err);
+  }
+}
+
+
+// Render function with pagination + search
+function renderTable() {
+  const tbody = document.getElementById("usersTableBody");
+  tbody.innerHTML = "";
+
+  const searchValue = document.getElementById("searchInput").value.toLowerCase();
+  let filtered = allUsers.filter(u =>
+    u.fullName.toLowerCase().includes(searchValue) ||
+    u.email.toLowerCase().includes(searchValue) ||
+    u.city.toLowerCase().includes(searchValue) ||
+    (u.phone || "").toLowerCase().includes(searchValue)
+  );
+
+  const totalPages = Math.ceil(filtered.length / pageSize);
+  if (currentPage > totalPages) currentPage = totalPages || 1;
+
+  const start = (currentPage - 1) * pageSize;
+  const pageUsers = filtered.slice(start, start + pageSize);
+
+  pageUsers.forEach(user => {
+    const statusColor = user.isOnline ? "#00A859" : "#9BACCA";
+    const statusText = user.isOnline ? "Active" : "Offline";
+    const pulseClass = user.isOnline ? "pulse" : "";
+
+    const row = `
+  <tr data-email="${user.email}">
+    <td>
+      <div class="d-flex align-items-center custOmerPtag">
+        <img src="${user.image}" style="width: 25px;" alt="">
+        <div class="ms-2">
+          <small>${user.fullName}</small><br>
+          <small style="color: #8D98AF; font-size: 10px;">@${user.fullName.split(" ")[0].toLowerCase()}</small>
+        </div>
+      </div>
+    </td>
+    <td>
+      <div class="status-wrapper">
+        <i class="fa-solid fa-circle me-2 status-icon ${pulseClass}" style="color:${statusColor};"></i>
+        <span>${statusText}</span>
+      </div>
+    </td>
+    <td>${user.email}</td>
+    <td>${user.city}</td>
+    <td>${user.phone || "-"}</td>
+    <td><i class="fa-solid fa-ellipsis" style="color: #CBD3E1;"></i></td>
+  </tr>
+`;
+    tbody.insertAdjacentHTML("beforeend", row);
+  });
+
+  document.getElementById("pageInfo").textContent = `Page ${currentPage} of ${totalPages || 1}`;
+}
+
+// Pagination buttons
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("prevPage").addEventListener("click", () => {
+    if (currentPage > 1) { currentPage--; renderTable(); }
+  });
+
+  document.getElementById("nextPage").addEventListener("click", () => {
+    const totalPages = Math.ceil(allUsers.length / pageSize);
+    if (currentPage < totalPages) { currentPage++; renderTable(); }
+  });
+
+  document.getElementById("searchIcon").addEventListener("click", () => {
+    const input = document.getElementById("searchInput");
+    input.style.display = input.style.display === "none" ? "inline-block" : "none";
+    if (input.style.display === "inline-block") input.focus();
+  });
+
+  document.getElementById("searchInput").addEventListener("input", () => {
+    currentPage = 1;
+    renderTable();
+  });
+
+  loadDistributorUsers();
+});
+
+
+// load customer card on dashboard
+async function loadCustomerCards() {
+  try {
+    const res = await fetch("http://localhost:3001/amazon/document/api/orders");
+    if (!res.ok) throw new Error("Failed to fetch orders");
+    const orders = await res.json();
+
+    // Extract unique customers
+    const uniqueCustomers = {};
+    orders.forEach(order => {
+      const c = order.customerSnapshot;
+      if (c && c.email && !uniqueCustomers[c.email]) {
+        uniqueCustomers[c.email] = { ...c, id: order._id };
+      }
+    });
+
+    // Take the last 4 (latest)
+    const customers = Object.values(uniqueCustomers).slice(-4).reverse();
+
+    const listContainer = document.getElementById("customerList");
+    listContainer.innerHTML = "";
+
+    customers.forEach(c => {
+      const fullName = `${c.firstName || ""} ${c.lastName || ""}`.trim();
+      const shortId = c.id ? c.id.slice(-5) : "N/A";
+
+      const item = `
+        <div class="d-flex align-items-center mb-3">
+          <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=random" 
+               class="rounded-circle me-3" width="40" height="40" alt="${fullName}">
+          <div>
+            <strong class="d-block">${fullName || "Unknown"}</strong>
+            <small class="text-muted">Customer ID#${shortId}</small>
+          </div>
+        </div>
+      `;
+      listContainer.insertAdjacentHTML("beforeend", item);
+    });
+
+  } catch (err) {
+    console.error("Error loading customer cards:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadCustomerCards);
+  
+// customer order modal popup 
+let currentCustomerOrders = [];
+let currentPages = 1;
+const pageSizes = 10;
+let currentFilter = "all";
+// Handle click on customer rows
+
+document.addEventListener("click", async (e) => {
+  const row = e.target.closest("tr[data-email]");
+  if (!row) return;
+  const email = row.dataset.email;
+  const fullName =
+    row.querySelector(".custOmerPtag small")?.textContent || "Customer";
+  const modal = new bootstrap.Modal(
+    document.getElementById("customerOrdersModal")
+  );
+  modal.show();
+  document.getElementById("customerOrdersTableBody").innerHTML = `
+    <tr><td colspan="6" class="text-center text-muted py-3">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-2">Loading orders for ${fullName}...</p>
+    </td></tr>
+  `;
+  document.getElementById("customerInfo").innerHTML = `
+    <div class="d-flex align-items-center">
+      <img src="./images/New Customers List (3).png" class="rounded-circle me-3" width="45" height="45" alt="">
+      <div>
+        <p class="fw-bold mb-0">${fullName}</p>
+        <small class="text-muted">${email}</small>
+      </div>
+    </div>
+  `;
+  try {
+    const res = await fetch("http://localhost:3001/amazon/document/api/orders");
+    if (!res.ok) throw new Error("Failed to fetch orders");
+    const orders = await res.json();
+    currentCustomerOrders = orders.filter(
+      (o) => o.customerSnapshot?.email?.toLowerCase() === email.toLowerCase()
+    );
+    currentPages = 1;
+    renderCustomerOrders("all");
+  } catch (err) {
+    console.error("Error loading orders:", err);
+    document.getElementById(
+      "customerOrdersTableBody"
+    ).innerHTML = `<tr><td colspan="6" class="text-center text-danger">Error loading orders</td></tr>`;
+  }
+});
+
+// Render orders with pagination
+function renderCustomerOrders(filter = currentFilter) {
+  currentFilter = filter;
+  const tbody = document.getElementById("customerOrdersTableBody");
+  tbody.innerHTML = "";
+  // Apply filter
+  let filtered = currentCustomerOrders;
+  if (filter !== "all") {
+    filtered = filtered.filter(
+      (o) => o.paymentStatus?.toLowerCase() === filter
+    );
+  }
+  const totalItems = filtered.length;
+  const totalPages = Math.ceil(totalItems / pageSizes);
+  if (totalPages === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-3">No ${filter} orders found</td></tr>`;
+    document.getElementById("paginationInfo").textContent =
+      "Showing 0 of 0 items";
+    document.getElementById("paginationControls").innerHTML = "";
+    return;
+  }
+  // Slice data for current page
+  const start = (currentPages - 1) * pageSizes;
+  const paginated = filtered.slice(start, start + pageSizes);
+  // Fill table
+  paginated.forEach((order) => {
+    const date = new Date(order.createdAt).toLocaleDateString("en-GB");
+    const products = order.items?.map((i) => i.name).join(", ") || "—";
+    const city = order.customerSnapshot?.city || "—";
+    const gateway = order.totalAmount || "N/A";
+    const status = order.paymentStatus?.toLowerCase();
+    const statusHTML =
+      status === "paid"
+        ? `<i class="fa-solid fa-circle-check text-success"></i> Paid`
+        : status === "failed"
+        ? `<i class="fa-solid fa-circle-xmark text-danger"></i> Failed`
+        : `<i class="fa-solid fa-circle-notch text-warning"></i> Pending`;
+    tbody.insertAdjacentHTML(
+      "beforeend",
+      `
+      <tr>
+        <td>#${order._id.slice(-6)}</td>
+        <td>${date}</td>
+        <td>${products}</td>
+        <td>${city}</td>
+        <td>${gateway}</td>
+        <td>${statusHTML}</td>
+      </tr>
+      `
+    );
+  });
+  // Pagination info
+  const showingFrom = start + 1;
+  const showingTo = Math.min(start + pageSizes, totalItems);
+  document.getElementById(
+    "paginationInfo"
+  ).textContent = `Showing ${showingFrom} to ${showingTo} of ${totalItems} items`;
+  renderPaginationControls(totalPages);
+}
+// Build pagination controls
+function renderPaginationControls(totalPages) {
+  const pagination = document.getElementById("paginationControls");
+  pagination.innerHTML = "";
+  const prevDisabled = currentPages === 1 ? "disabled" : "";
+  const nextDisabled = currentPages === totalPages ? "disabled" : "";
+  pagination.insertAdjacentHTML(
+    "beforeend",
+    `<li class="page-item ${prevDisabled}">
+       <a class="page-link" href="#" id="prevPage">&laquo;</a>
+     </li>`
+  );
+  for (let i = 1; i <= totalPages; i++) {
+    const active = currentPages === i ? "active" : "";
+    pagination.insertAdjacentHTML(
+      "beforeend",
+      `<li class="page-item ${active}"><a class="page-link page-num" href="#">${i}</a></li>`
+    );
+  }
+  pagination.insertAdjacentHTML(
+    "beforeend",
+    `<li class="page-item ${nextDisabled}">
+       <a class="page-link" href="#" id="nextPage">&raquo;</a>
+     </li>`
+  );
+  // Handlers
+  pagination.querySelectorAll(".page-num").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      currentPages = parseInt(link.textContent);
+      renderCustomerOrders(currentFilter);
+    });
+  });
+  const prev = pagination.querySelector("#prevPage");
+  const next = pagination.querySelector("#nextPage");
+  if (prev)
+    prev.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (currentPages > 1) {
+        currentPages--;
+        renderCustomerOrders(currentFilter);
+      }
+    });
+  if (next)
+    next.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (currentPages < totalPages) {
+        currentPages++;
+        renderCustomerOrders(currentFilter);
+      }
+    });
+}
+// Tab clicks
+document.querySelectorAll(".order-tab").forEach((tab) => {
+  tab.addEventListener("click", (e) => {
+    e.preventDefault();
+    document
+      .querySelectorAll(".order-tab")
+      .forEach((t) => t.classList.remove("active"));
+    tab.classList.add("active");
+    currentPages = 1;
+    renderCustomerOrders(tab.dataset.status);
+  });
+});
+
+
+// LOAD LATEST ORDER ON DASHBOARD
+async function loadLatestOrders() {
+  try {
+    const res = await fetch("http://localhost:3001/amazon/document/api/orders");
+    if (!res.ok) throw new Error("Failed to fetch orders");
+    const orders = await res.json();
+
+    // Sort by createdAt (newest first)
+    const latestOrders = orders
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 4);
+
+    const tbody = document.getElementById("latestOrdersBody");
+    tbody.innerHTML = "";
+
+    latestOrders.forEach(order => {
+      const date = new Date(order.createdAt).toLocaleString("en-GB");
+      const amount = `₦${order.totalAmount.toLocaleString()}`;
+      const status = order.paymentStatus?.toLowerCase();
+
+      let statusHTML = "";
+      if (status === "paid") {
+        statusHTML = `<span class="badge bg-success">Completed</span>`;
+      } else if (status === "failed") {
+        statusHTML = `<span class="badge bg-danger">Declined</span>`;
+      } else {
+        statusHTML = `<span class="badge bg-warning">Pending</span>`;
+      }
+
+      const row = `
+        <tr>
+          <td>Payment from #${order._id.slice(-5)}</td>
+          <td>${date}</td>
+          <td>${amount}</td>
+          <td>${statusHTML}</td>
+        </tr>
+      `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    });
+  } catch (err) {
+    console.error("Error loading latest orders:", err);
+  }
+}
+// Load when page is ready
+document.addEventListener("DOMContentLoaded", loadLatestOrders);
+
+
+// LOAD CUSTOMER NOTIFICATION FEED (with unseen tracking)
+// =====================
+let lastSeenOrderTime = localStorage.getItem("lastSeenOrderTime") 
+  ? new Date(localStorage.getItem("lastSeenOrderTime")) 
+  : new Date(0);
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadCityOrdersFeed();
+
+  // ✅ Bell click → mark as seen
+  document.body.addEventListener("click", (e) => {
+    if (e.target.closest(".btnSharp")) {
+      const badge = document.getElementById("notificationBadge");
+      if (badge) badge.style.display = "none";
+
+      // Mark latest order time as seen
+      localStorage.setItem("lastSeenOrderTime", new Date().toISOString());
+    }
+  });
+
+  // 🔁 Auto-refresh every 30 seconds
+  setInterval(loadCityOrdersFeed, 30000);
+});
+
+async function loadCityOrdersFeed() {
+  try {
+    const distributorCity = localStorage.getItem("city");
+    if (!distributorCity) {
+      console.warn("Distributor city not found in localStorage.");
+      return;
+    }
+
+    const res = await fetch("http://localhost:3001/amazon/document/api/orders");
+    const orders = await res.json();
+
+    // ✅ Filter orders by city
+    const filteredOrders = orders.filter(
+      (o) =>
+        o.customerSnapshot?.city?.toLowerCase() ===
+        distributorCity.toLowerCase()
+    );
+
+    // ✅ Sort newest first
+    const sortedOrders = filteredOrders.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
+    const feed = document.getElementById("activityFeed");
+    feed.innerHTML = "";
+
+    if (sortedOrders.length === 0) {
+      feed.innerHTML = `<li class="text-muted text-center">No recent activity in ${distributorCity}</li>`;
+      updateNotificationBadge(0);
+      return;
+    }
+
+    // ✅ Show 10 recent
+    sortedOrders.slice(0, 10).forEach((order) => {
+      const firstName = order.customerSnapshot?.firstName || "Unknown";
+      const lastName = order.customerSnapshot?.lastName
+        ? order.customerSnapshot.lastName.charAt(0) + "."
+        : "";
+      const total = order.totalAmount
+        ? order.totalAmount.toLocaleString()
+        : "0";
+      const payment = order.paymentStatus || "pending";
+      const createdAt = new Date(order.createdAt);
+      const timeAgo = formatTimeAgo(createdAt);
+
+      const badgeClass =
+        payment.toLowerCase() === "paid"
+          ? "bg-success-subtle text-success"
+          : payment.toLowerCase() === "failed"
+          ? "bg-danger-subtle text-danger"
+          : "bg-warning-subtle text-warning";
+
+      const avatar = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=random`;
+
+      feed.insertAdjacentHTML(
+        "beforeend",
+        `
+        <li class="d-flex align-items-center mb-3 border-bottom pb-2">
+          <img src="${avatar}" class="rounded-circle me-3" width="40" height="40" alt="${firstName}">
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between">
+              <strong>${firstName} ${lastName}</strong>
+              <small class="text-muted">${timeAgo}</small>
+            </div>
+            <div class="text-muted small">Placed an order worth ₦${total}</div>
+          </div>
+          <span class="badge rounded-pill ${badgeClass}">${payment}</span>
+        </li>
+        `
+      );
+    });
+
+    // ✅ New unseen notifications logic
+    const newOrders = sortedOrders.filter(
+      (o) => new Date(o.createdAt) > lastSeenOrderTime
+    );
+    updateNotificationBadge(newOrders.length);
+  } catch (err) {
+    console.error("Error loading city orders feed:", err);
+  }
+}
+
+// 🕒 Helper function → format time ago
+function formatTimeAgo(date) {
+  const now = new Date();
+  const seconds = Math.floor((now - date) / 1000);
+
+  const intervals = [
+    { label: "year", seconds: 31536000 },
+    { label: "month", seconds: 2592000 },
+    { label: "day", seconds: 86400 },
+    { label: "hour", seconds: 3600 },
+    { label: "min", seconds: 60 },
+  ];
+
+  for (const interval of intervals) {
+    const count = Math.floor(seconds / interval.seconds);
+    if (count >= 1)
+      return `${count} ${interval.label}${count > 1 ? "s" : ""} ago`;
+  }
+  return "just now";
+}
+
+// 🔔 Update notification badge
+function updateNotificationBadge(count) {
+  const badge = document.getElementById("notificationBadge");
+  if (!badge) return;
+  if (count > 0) {
+    badge.style.display = "inline-block";
+    badge.textContent = count > 9 ? "9+" : count;
+  } else {
+    badge.style.display = "none";
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function logOut() {
