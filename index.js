@@ -825,6 +825,136 @@ function updateNotificationBadge(count) {
 
 
 
+// LOAD BEST SELLING PRODUCT (DOUGHNUT CHART)
+document.addEventListener("DOMContentLoaded", loadBestSellingProducts);
+async function loadBestSellingProducts() {
+  try {
+    const distributorCity = localStorage.getItem("city");
+    if (!distributorCity) {
+      console.warn("City not found in localStorage");
+      return;
+    }
+
+    const res = await fetch("http://localhost:3001/amazon/document/api/orders");
+    const orders = await res.json();
+
+    // ✅ Filter by distributor city
+    const cityOrders = orders.filter(
+      (o) =>
+        o.customerSnapshot?.city?.toLowerCase() ===
+        distributorCity.toLowerCase()
+    );
+
+    // ✅ Aggregate product quantities
+    const productMap = {};
+    cityOrders.forEach((order) => {
+      order.items?.forEach((item) => {
+        const name = item.name;
+        if (!productMap[name]) {
+          productMap[name] = {
+            quantity: 0,
+            image: item.image || "",
+          };
+        }
+        productMap[name].quantity += item.quantity || 0;
+      });
+    });
+
+    const products = Object.entries(productMap)
+      .map(([name, data]) => ({
+        name,
+        quantity: data.quantity,
+        image: data.image,
+      }))
+      .sort((a, b) => b.quantity - a.quantity)
+      .slice(0, 4);
+
+    if (products.length === 0) {
+      document.getElementById("productLegend").innerHTML =
+        "<p class='text-muted text-center'>No products found</p>";
+      return;
+    }
+
+    const totalUnits = products.reduce((sum, p) => sum + p.quantity, 0);
+
+    // ✅ Chart.js setup
+    const ctx = document.getElementById("bestSellingChart").getContext("2d");
+    const colors = ["#3b82f6", "#a855f7", "#22c55e", "#f97316"]; // Blue, Purple, Green, Orange
+
+    const chartData = {
+      labels: products.map((p) => p.name),
+      datasets: [
+        {
+          data: products.map((p) => p.quantity),
+          backgroundColor: colors.slice(0, products.length),
+          borderWidth: 0,
+          cutout: "90%",
+        },
+      ],
+    };
+
+    // ✅ Safely destroy old chart if exists
+    if (
+      window.bestSellingChart &&
+      typeof window.bestSellingChart.destroy === "function"
+    ) {
+      window.bestSellingChart.destroy();
+    }
+
+    // ✅ Plugin for text in center
+    const centerTextPlugin = {
+      id: "centerText",
+      afterDraw(chart) {
+        const { ctx, chartArea: { width, height } } = chart;
+        ctx.save();
+        ctx.font = "bold 24px 'Poppins', sans-serif";
+        ctx.fillStyle = "#111";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(totalUnits.toLocaleString(), width / 2, height / 2 - 10);
+        ctx.font = "12px 'Poppins', sans-serif";
+        ctx.fillStyle = "#6b7280";
+        ctx.fillText("Best-Selling Products", width / 2, height / 2 + 15);
+        ctx.restore();
+      },
+    };
+
+    // ✅ Create new chart
+    window.bestSellingChart = new Chart(ctx, {
+      type: "doughnut",
+      data: chartData,
+      options: {
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: true },
+        },
+      },
+      plugins: [centerTextPlugin],
+    });
+
+    // ✅ Build legend
+    const legend = document.getElementById("productLegend");
+    legend.innerHTML = "";
+    products.forEach((p, i) => {
+      legend.insertAdjacentHTML(
+        "beforeend",
+        `
+        <div class="d-flex align-items-center mb-2">
+          <span class="me-2" style="width:10px; height:10px; background:${colors[i]}; border-radius:50%;"></span>
+          <img src="${p.image}" width="30" height="30" class="rounded me-2" alt="${p.name}">
+          <span class="fw-semibold">${p.name}</span>
+          <span class="ms-auto text-muted">${formatK(p.quantity)}</span>
+        </div>
+        `
+      );
+    });
+  } catch (err) {
+    console.error("Error loading best-selling products:", err);
+  }
+}
+function formatK(num) {
+  return num >= 1000 ? (num / 1000).toFixed(1) + "k" : num;
+}
 
 
 

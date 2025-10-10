@@ -50,7 +50,7 @@
             </form>
             <!-- notification pop-up  -->
               <div class="col-md-4" id="notificationPopUp">
-                  <div class="card p-3" style="max-height: 320px; overflow-y: auto;">
+                  <div class="card p-3" style=" overflow-y: auto;">
                     <h6 class="fw-bold mb-3">Recent Activities in Your City</h6>
                     <ul class="list-unstyled" id="activityFeed"></ul>
                   </div>
@@ -110,167 +110,185 @@
         </div>
       </div>
 
-  <div class="container-fluid ">
-  <div class="row">
-    <!-- Sidebar -->
-    <div class="col-md-2 sidebar d-lg-block d-none">
-     <ul class="listItem ">
-            <li">
-             <a href="index.html" class="active" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-house me-3"></i></span><span>Dashboard</span></a>
-            </li>
-            
-            <li>
-               <a href="./orders.html" class="" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-cart-shopping me-3"></i></span><span>Order</span></a>
-              </li>
-            <li>
-             <a href="./customers.html" style="text-decoration: none; color:#8D98AF;"><i class="fa-solid fa-user me-3"></i></span><span>Customers</span></a>
-            </li>
-            <li>
-                <a href="./inventory.html" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-warehouse me-3"></i></span><span>Inventory</span></a>
-            </li>
-            <li>
-                <a href="./notifications.html" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-bell me-3"></i></span><span>Notification</span></a>
-            </li>
-            <hr>
-            <li class="">
-                <a href="" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-message me-3"></i></span><span>Reviews</span></a>
-            </li>
-            <li class="">
-                <a href="" style="text-decoration: none; color: #8D98AF;" ><i class="fa-solid fa-gear me-3"></i></span><span>settings</span></a>
-            </li>
-            
+    <div class="container-fluid ">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar d-lg-block d-none">
+        <ul class="listItem ">
+                <li">
+                <a href="index.html" class="active" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-house me-3"></i></span><span>Dashboard</span></a>
+                </li>
+                
+                <li>
+                  <a href="./orders.html" class="" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-cart-shopping me-3"></i></span><span>Order</span></a>
+                  </li>
+                <li>
+                <a href="./customers.html" style="text-decoration: none; color:#8D98AF;"><i class="fa-solid fa-user me-3"></i></span><span>Customers</span></a>
+                </li>
+                <li>
+                    <a href="./inventory.html" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-warehouse me-3"></i></span><span>Inventory</span></a>
+                </li>
+                <li>
+                    <a href="./notifications.html" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-bell me-3"></i></span><span>Notification</span></a>
+                </li>
+                <hr>
+                <li class="">
+                    <a href="" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-message me-3"></i></span><span>Reviews</span></a>
+                </li>
+                <li class="">
+                    <a href="" style="text-decoration: none; color: #8D98AF;" ><i class="fa-solid fa-gear me-3"></i></span><span>settings</span></a>
+                </li>
+                
 
-            <button class="Dashbutton mt-5 " style="cursor: pointer;" onclick="logOut()">
-             <a  style="text-decoration: none; color:#8D98AF ; "><i class="fa-solid fa-arrow-right-from-bracket me-3"></i></span><span class="logspan">Logout</span></a>
-            </li>
-       </ul>
-    </div>
-
-    <!-- Main Content -->
-    <div class="col-md-10 p-4">
-      <!-- Top Metrics -->
-      <div class="row g-3 mb-4" >
-        <div class="col-md-3">
-          <div class="metric-card">
-          <h5>Total Sales (Yearly)</h5>
-          <h3 id="totalSales">₦0</h3>
-          <small class="text-success">+4.2%</small>
-          <i class="fa-light fa-arrow-up" style="color: red;"></i>
-          <!-- <small>Compared to last year</small> -->
-        </div>
+                <button class="Dashbutton mt-5 " style="cursor: pointer;" onclick="logOut()">
+                <a  style="text-decoration: none; color:#8D98AF ; "><i class="fa-solid fa-arrow-right-from-bracket me-3"></i></span><span class="logspan">Logout</span></a>
+                </li>
+          </ul>
         </div>
 
-        <div class="col-md-3">
-          <div class="metric-card">
-            <h5>Total Sales (Daily)</h5>
-            <h3 id="totalSalesDaily">₦0</h3>
-            <small class="text-success">+0% vs yesterday</small>
+        <!-- Main Content -->
+        <div class="col-md-10 p-4">
+          <!-- Top Metrics -->
+          <div class="row g-3 mb-4" >
+            <div class="col-md-3">
+              <div class="metric-card">
+              <h5>Total Sales (Yearly)</h5>
+              <h3 id="totalSales">₦0</h3>
+              <small class="text-success">+4.2%</small>
+              <i class="fa-light fa-arrow-up" style="color: red;"></i>
+              <!-- <small>Compared to last year</small> -->
+            </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="metric-card">
+                <h5>Total Sales (Daily)</h5>
+                <h3 id="totalSalesDaily">₦0</h3>
+                <small class="text-success">+0% vs yesterday</small>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="metric-card">
+              <h5>Total Sales (Weekly)</h5>
+              <h3 id="totalSalesWeekly">₦0</h3>
+              <small class="text-weekly">+0% vs last week</small>
+            </div>
+
+            </div>
+            <div class="col-md-3">
+              <div class="metric-card">
+                <h5>Total Sales (Monthly)</h5>
+                <h3 id="totalSalesMonthly">₦0</h3>
+                <small class="text-monthly">+0% vs last month</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-8">
+              <div class="card shadow-sm p-3">
+                <h5 class="mb-3">Distribution Trends</h5>
+                <canvas id="trendChart"></canvas>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card p-3">
+                <img src="./images/Daily Visit Insights.png" alt="">
+                <!-- <h6>Daily Visit Insights</h6>
+                <canvas id="visitChart" height="100"></canvas> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Best Selling Products + Doughnut chart -->
+          <div class="row g-3 mb-4">
+              <div class="col-md-8" >
+              <div class="card p-3 h-100" id="TableId">
+                <div class="d-flex align-items-center justify-content-between">
+                <h6>Best selling products</h6>
+                </div>
+                <div class=" table-responsive" >
+                <table class=" table big-table table-borderless" style="height: 400px;">
+                  <thead class="tablePad">
+                    <tr class="" style="color: #8D98AF; ">
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Stock</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+                </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="card p-3 text-center">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <i class="fas fa-chevron-left text-muted small"></i>
+                    <h6 class="mb-0" id="chartYear">2024</h6>
+                    <i class="fas fa-chevron-right text-muted small"></i>
+                  </div>
+                  <canvas id="bestSellingChart" height="200"></canvas>
+
+                  <!-- 🟢 These stay for graceful fallback -->
+                  <h5 class="mt-3 d-none" id="totalUnits">0</h5>
+                  <p class="text-muted small mb-3 d-none">Best-Selling Products</p>
+
+                  <div id="productLegend" class="text-start small"></div>
+                </div>
+              </div>
+              
+
+            <!-- Customers & Orders -->
+            <div class="row g-3">
+            <div class="col-md-4">
+              <div class="card shadow-sm border-0 h-100">
+          <div class="card-body">
+            <h6 class="mb-3">New Customers</h6>
+            <div id="customerList"></div>
+            <div class="text-end mt-3">
+              <a href="customers.html" class="btn btn-link p-0">View more →</a>
+            </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="metric-card">
-          <h5>Total Sales (Weekly)</h5>
-          <h3 id="totalSalesWeekly">₦0</h3>
-          <small class="text-weekly">+0% vs last week</small>
-        </div>
-
-        </div>
-        <div class="col-md-3">
-          <div class="metric-card">
-            <h5>Total Sales (Monthly)</h5>
-            <h3 id="totalSalesMonthly">₦0</h3>
-            <small class="text-monthly">+0% vs last month</small>
+              </div>
+              <div class="col-md-8">
+        <div class="card p-3 shadow border-0 h-100">
+          <h6>Order List</h6>
+          <div class="table-responsive">
+            <table class="table big-table table-borderless">
+              <thead class="tablePad">
+                <tr>
+                  <th>Payment Number</th>
+                  <th>Date & Time</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="latestOrdersBody">
+                <!-- Latest 4 orders will be injected here -->
+              </tbody>
+            </table>
+            <div class="text-center">
+              <button class="TableBUTon" onclick="window.location.href='orders.html'">
+                View All Transaction
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Charts -->
-      <div class="row g-3 mb-4">
-        <div class="col-md-8">
-          <div class="card shadow-sm p-3">
-            <h5 class="mb-3">Distribution Trends</h5>
-            <canvas id="trendChart"></canvas>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card p-3">
-            <img src="./images/Daily Visit Insights.png" alt="">
-            <!-- <h6>Daily Visit Insights</h6>
-            <canvas id="visitChart" height="100"></canvas> -->
-          </div>
-        </div>
-      </div>
+            </div>
 
-      <!-- Best Selling Products + Doughnut -->
-     <div class="row g-3 mb-4">
-        <div class="col-md-8" >
-        <div class="card p-3 " id="TableId">
-          <div class="d-flex align-items-center justify-content-between">
-          <h6>Best selling products</h6>
           </div>
-          <div class=" table-responsive" >
-          <table class=" table big-table table-borderless" style="height: 400px;">
-            <thead class="tablePad">
-              <tr class="" style="color: #8D98AF; ">
-                <th>Name</th>
-                <th>Category</th>
-                <th>Stock</th>
-                <th>Amount</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-          </div>
-          </div>
-        </div>
-        
-
-      <!-- Customers & Orders -->
-      <div class="row g-3">
-       <div class="col-md-4">
-         <div class="card shadow-sm border-0 h-100">
-    <div class="card-body">
-      <h6 class="mb-3">New Customers</h6>
-      <div id="customerList"></div>
-      <div class="text-end mt-3">
-        <a href="customers.html" class="btn btn-link p-0">View more →</a>
       </div>
-    </div>
-  </div>
-        </div>
-        <div class="col-md-8">
-  <div class="card p-3 shadow border-0 h-100">
-    <h6>Order List</h6>
-    <div class="table-responsive">
-      <table class="table big-table table-borderless">
-        <thead class="tablePad">
-          <tr>
-            <th>Payment Number</th>
-            <th>Date & Time</th>
-            <th>Amount</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="latestOrdersBody">
-          <!-- Latest 4 orders will be injected here -->
-        </tbody>
-      </table>
-      <div class="text-center">
-        <button class="TableBUTon" onclick="window.location.href='orders.html'">
-          View All Transaction
-        </button>
       </div>
-    </div>
-  </div>
-</div>
-
-      </div>
-
-    </div>
-  </div>
-</div>
+    </div>`
 
   
 
