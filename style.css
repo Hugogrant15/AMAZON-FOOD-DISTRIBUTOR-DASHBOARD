@@ -145,24 +145,64 @@ body {
     height: 600px;
 }
 
-@media screen and (max-width: 600px) {
-    .dashboardInput {
-        width: 100%;
-    }
-
-    .bshadow {
-    height: 100vh;
-}
-}
-
-
-
-
-
 
 /* sidebar styling starts here  */
 
 .sidebar {
+  background-color: #fff;
+  /* height: 100vh; */
+  border-right: 1px solid #e0e0e0;
+  padding-top: 20px;
+}
+
+.sidebar .listItem {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.sidebar .listItem li {
+  margin-bottom: 12px;
+}
+
+/* Sidebar Links */
+.sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #8D98AF;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #f2f5fa;
+  color: #333;
+}
+
+.sidebar .nav-link.active {
+  background-color: #e8f0ff;
+  color: #2f67ff;
+  font-weight: 600;
+}
+
+/* Active icon color */
+.sidebar .nav-link.active i {
+  color: #2f67ff;
+}
+
+/* Logout link */
+.logout-link {
+  color: #dc3545 !important;
+}
+
+.logout-link:hover {
+  background-color: #ffe6e6;
+  color: #b02a37 !important;
+}
+
+/* .sidebar {
     background: #fff;
     border-right: 1px solid #dee2e6;
 }
@@ -176,7 +216,7 @@ body {
     background: #f1f1f1;
     border-radius: 20px;
 
-}
+} */
 .metric-card {
     background: #fff;
     border-radius: 8px;
@@ -223,12 +263,14 @@ body {
 .Dashbutton {
     width: 140px;
     height: 40px;
+    border: 1px solid grey;
     border-radius: 20px;
     color: #171725;
-    font-size: 14px;
+    font-size: 19px;
     font-weight: 500;
     line-height: 100%;
     border: none;
+    margin-top: 150vh;
     
 }
 
@@ -282,6 +324,24 @@ body {
     background: white;
     
     display: none;
+}
+
+#notificationPopUp1 {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  z-index: 1050;
+  width: 320px;
+  max-height: 350px;
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  #notificationPopUp1 {
+    right: 10px;
+    top: 60px;
+    width: 90%;
+  }
 }
 /* #notificationPopUp01 {
     height: 800px !important;
@@ -553,12 +613,7 @@ form label {
     height: 440px; 
 }  */
 
-@media screen and (max-width: 600px) {
-   #imgWidth {
-    width: 390px;
-    height: 480px; 
-} 
-}
+
 
 
 
@@ -599,6 +654,7 @@ form label {
 }
 
 
+notificationhtml page styling here  */
 .order-header {
   font-size: 1.25rem;
   font-weight: 700;
@@ -640,4 +696,91 @@ form label {
   margin: 0;
   font-size: 0.9rem;
   color: #666;
+}
+
+
+
+
+
+
+
+
+/* container layout */
+.search-container {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  gap: 6px;
+}
+
+/* input default (collapsed) */
+.mobile-search-input {
+  width: 0;
+  opacity: 0;
+  padding: 6px 8px;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: transparent;
+  transition: width 0.22s ease, opacity 0.22s ease, transform 0.22s ease;
+  font-size: 0.95rem;
+  transform-origin: left center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* visible when expanded */
+.search-container.expanded .mobile-search-input {
+  width: 150px;            /* adjust width as needed */
+  opacity: 1;
+  transform: none;
+}
+
+/* remove default focus outline but keep accessibility outline */
+.mobile-search-input:focus {
+  outline: 2px solid rgba(47,103,255,0.12);
+  outline-offset: 2px;
+  background: transparent;
+}
+
+/* keep the button icon clickable and not selectable text */
+#mobileSearchBtn { user-select: none; }
+
+
+
+
+@media screen and (max-width: 600px) {
+   #imgWidth {
+    width: 390px;
+    height: 480px; 
+} 
+}
+
+@media screen and (max-width: 600px) {
+    .dashboardInput {
+        width: 100%;
+    }
+
+    .bshadow {
+    height: 100vh;
+}
+}
+
+@media (min-width: 601px) and (max-width: 912px) {
+   
+.sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 1px;
+  text-decoration: none;
+  color: #8D98AF;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.Dashbutton {
+    
+    margin-top: 1000px !important;
+    
+}
+   
 }

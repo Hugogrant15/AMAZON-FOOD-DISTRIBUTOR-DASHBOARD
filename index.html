@@ -15,10 +15,10 @@
 </head>
 <body>
      <!-- Desktop Navbar (visible on md and up) -->
-      <nav class="navbar navbar-expand-lg bg-white d-none d-md-flex fixed-top">
+      <nav class="navbar navbar-expand-md bg-white d-none d-md-flex fixed-top">
         <div class="container-fluid">
           <img src="./images/Foodies logo without Banner 1.png" style="width: 50px; height: 50px" alt="">
-          <span class="Navlogo1">360 Organic Foodie</span>
+          <span class="Navlogo1 d-md-none">360 Organic Foodie</span>
 
           <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto">
@@ -60,7 +60,7 @@
       </nav>
 
       <!-- Mobile Navbar (visible only on sm) -->
-      <nav class="navbar bg-white px-3 d-flex justify-content-between align-items-center d-flex d-md-none">
+      <nav class="navbar bg-white px-3 d-flex justify-content-between align-items-center d-flex d-sm-flex d-md-none">
         <!-- Left side -->
         <div class="d-flex align-items-center">
           <!-- Hamburger -->
@@ -69,24 +69,52 @@
           </button>
 
           <!-- Search -->
-          <button class="btn p-0">
-            <i class="fa-solid fa-magnifying-glass fs-5 text-muted"></i>
-          </button>
+           <div class="search-container">
+  <button class="btn p-0" id="mobileSearchBtn" aria-label="Open search">
+    <i class="fa-solid fa-magnifying-glass fs-5 text-muted"></i>
+  </button>
+
+  <input
+    type="text"
+    id="mobileSearchInput"
+    class="mobile-search-input"
+    placeholder="Search dashboard..."
+    aria-label="Search dashboard"
+  />
+</div>
+
+          <!-- <div class="search-container position-relative">
+            <button class="btn p-0" id="mobileSearchBtn">
+              <i class="fa-solid fa-magnifying-glass fs-5 text-muted"></i>
+            </button>
+            <input type="text" id="mobileSearchInput" class="form-control form-control-sm position-absolute"
+              placeholder="Search..."
+              style="width: 0; opacity: 0; transition: all 0.3s ease; left: 40px; top: 0; z-index: 1000;">
+          </div> -->
         </div>
 
         <!-- Right side -->
         <div class="d-flex align-items-center">
           <!-- Bell -->
-          <button class="btn p-0 me-3 position-relative">
-            <i class="fa-regular fa-bell fs-4 text-muted"></i>
-            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle"></span>
-          </button>
+          <button class="text-reset me-1 btnSharp position-relative" onclick="toggleNotification(event)">
+                  <i class="fas fa-bell"></i>
+                  <span id="notificationBadge1"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        style="font-size: 0.7rem; display:none;">
+                  </span>
+                </button>
 
           <!-- Profile -->
           <img src="./images/cheerful-curly-man-with-bristle-points-left-wears-casual-clothes-spectacles 1.png"
               class="rounded-circle"
               alt="Profile" width="40" height="40">
         </div>
+        <div class="col-md-4" id="notificationPopUp1">
+                  <div class="card p-3" style=" overflow-y: auto;">
+                    <h6 class="fw-bold mb-3">Recent Activities in Your City</h6>
+                    <ul class="list-unstyled" id="activityFeed1"></ul>
+                  </div>
+              </div>
       </nav>
 
       <!-- Sidebar (offcanvas for mobile) -->
@@ -95,7 +123,7 @@
           <h5 class="offcanvas-title">Menu</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
-        <div class="offcanvas-body p-0">
+        <div class="offcanvas-body p-3">
           <ul class="listItem">
             <li><a href="index.html" class="active" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-house me-3"></i>Dashboard</a></li>
             <li><a href="./orders.html" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-cart-shopping me-3"></i>Orders</a></li>
@@ -113,7 +141,60 @@
     <div class="container-fluid ">
       <div class="row">
         <!-- Sidebar -->
-        <div class="col-md-2 sidebar d-lg-block d-none">
+         <div class="col-md-2 sidebar d-md-block d-none">
+          <ul class="listItem">
+            <li>
+              <a href="index.html" class="nav-link">
+                <i class="fa-solid fa-house me-lg-3 me-md-1"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="orders.html" class="nav-link">
+                <i class="fa-solid fa-cart-shopping me-lg-3 me-md-1"></i>
+                <span>Orders</span>
+              </a>
+            </li>
+            <li>
+              <a href="customers.html" class="nav-link">
+                <i class="fa-solid fa-user me-lg-3 me-md-1"></i>
+                <span>Customers</span>
+              </a>
+            </li>
+            <li>
+              <a href="inventory.html" class="nav-link">
+                <i class="fa-solid fa-warehouse me-lg-3 me-md-1"></i>
+                <span>Inventory</span>
+              </a>
+            </li>
+            <li>
+              <a href="notifications.html" class="nav-link">
+                <i class="fa-solid fa-bell me-lg-3 me-md-1"></i>
+                <span>Notifications</span>
+              </a>
+            </li>
+            <hr>
+            <li>
+              <a href="#" class="nav-link">
+                <i class="fa-solid fa-message me-lg-3 me-md-1"></i>
+                <span>Reviews</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link">
+                <i class="fa-solid fa-gear me-lg-3 me-md-1"></i>
+                <span>Settings</span>
+              </a>
+            </li>
+            <li class="mt-5">
+              <a href="#" class="nav-link  Dashbutton" onclick="logOut()">
+                <i class="fa-solid fa-arrow-right-from-bracket me-lg-3 me-md-1"></i>
+                <span>Logout</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="col-md-2 sidebar d-md-block d-none">
         <ul class="listItem ">
                 <li">
                 <a href="index.html" class="active" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-house me-3"></i></span><span>Dashboard</span></a>
@@ -144,12 +225,12 @@
                 <a  style="text-decoration: none; color:#8D98AF ; "><i class="fa-solid fa-arrow-right-from-bracket me-3"></i></span><span class="logspan">Logout</span></a>
                 </li>
           </ul>
-        </div>
+        </div> -->
 
         <!-- Main Content -->
-        <div class="col-md-10 p-4">
+        <div class="col-md-10 p-lg-3 p-2">
           <!-- Top Metrics -->
-          <div class="row g-3 mb-4" >
+          <div class="row g-3 mb-4 w-100" >
             <div class="col-md-3">
               <div class="metric-card">
               <h5>Total Sales (Yearly)</h5>
@@ -227,21 +308,23 @@
               </div>
 
               <div class="col-md-4">
-                <div class="card p-3 text-center">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <i class="fas fa-chevron-left text-muted small"></i>
-                    <h6 class="mb-0" id="chartYear">2024</h6>
-                    <i class="fas fa-chevron-right text-muted small"></i>
-                  </div>
-                  <canvas id="bestSellingChart" height="200"></canvas>
+  <div class="card p-3 text-center position-relative">
+    <!-- Year navigation -->
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <i class="fas fa-chevron-left text-muted small year-nav" id="prevYear" style="cursor: pointer;"></i>
+      <h6 class="mb-0" id="chartYear">2025</h6>
+      <i class="fas fa-chevron-right text-muted small year-nav" id="nextYear" style="cursor: pointer;"></i>
+    </div>
 
-                  <!-- 🟢 These stay for graceful fallback -->
-                  <h5 class="mt-3 d-none" id="totalUnits">0</h5>
-                  <p class="text-muted small mb-3 d-none">Best-Selling Products</p>
+    <!-- Chart container -->
+    <div style="position: relative; height: 200px; width: 100%;">
+      <canvas id="bestSellingChart"></canvas>
+    </div>
 
-                  <div id="productLegend" class="text-start small"></div>
-                </div>
-              </div>
+    <!-- Legend (product list) -->
+    <div id="productLegend" class="text-start small mt-3"></div>
+  </div>
+</div>
               
 
             <!-- Customers & Orders -->
@@ -252,7 +335,7 @@
             <h6 class="mb-3">New Customers</h6>
             <div id="customerList"></div>
             <div class="text-end mt-3">
-              <a href="customers.html" class="btn btn-link p-0">View more →</a>
+              <a href="customers.html" class="btn btn-link p-0" style="text-decoration: none; color: green; font-size: 15px;">View more →</a>
             </div>
           </div>
         </div>

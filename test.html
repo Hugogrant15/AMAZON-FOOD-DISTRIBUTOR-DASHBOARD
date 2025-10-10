@@ -6,7 +6,7 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="test.css">
 
 </head>
 <body>
@@ -99,6 +99,62 @@
         </div>
       </nav>
 
+
+      <div class="col-md-2 sidebar d-md-block d-none">
+  <ul class="listItem">
+    <li>
+      <a href="index.html" class="nav-link">
+        <i class="fa-solid fa-house me-3"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a href="orders.html" class="nav-link">
+        <i class="fa-solid fa-cart-shopping me-3"></i>
+        <span>Orders</span>
+      </a>
+    </li>
+    <li>
+      <a href="customers.html" class="nav-link">
+        <i class="fa-solid fa-user me-3"></i>
+        <span>Customers</span>
+      </a>
+    </li>
+    <li>
+      <a href="inventory.html" class="nav-link">
+        <i class="fa-solid fa-warehouse me-3"></i>
+        <span>Inventory</span>
+      </a>
+    </li>
+    <li>
+      <a href="notifications.html" class="nav-link">
+        <i class="fa-solid fa-bell me-3"></i>
+        <span>Notifications</span>
+      </a>
+    </li>
+    <hr>
+    <li>
+      <a href="#" class="nav-link">
+        <i class="fa-solid fa-message me-3"></i>
+        <span>Reviews</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="nav-link">
+        <i class="fa-solid fa-gear me-3"></i>
+        <span>Settings</span>
+      </a>
+    </li>
+    <li class="mt-5">
+      <a href="#" class="nav-link logout-link" onclick="logOut()">
+        <i class="fa-solid fa-arrow-right-from-bracket me-3"></i>
+        <span>Logout</span>
+      </a>
+    </li>
+  </ul>
+      </div>
+
+
       <!-- Page Content -->
       <div class="p-3">
         <h2>Welcome to Dashboard</h2>
@@ -134,115 +190,7 @@
 
 
 
-  <script>
-    let allUsers = [
-  // Example data (replace with your API data)
-  { fullName: "John Doe", email: "john@example.com", city: "Lagos", phone: "08012345678", image: "./images/New Customers List (3).png", isOnline: true },
-  { fullName: "Jane Smith", email: "jane@example.com", city: "Abuja", phone: "08087654321", image: "./images/New Customers List (3).png", isOnline: false },
-  { fullName: "Mike Adams", email: "mike@example.com", city: "Port Harcourt", phone: "08099887766", image: "./images/New Customers List (3).png", isOnline: true }
-];
-
-let currentPage = 1;
-const pageSize = 5;
-let currentFilter = "all"; // all | active | offline
-
-// Render users as cards
-function renderUsers() {
-  const container = document.getElementById("usersCards");
-  container.innerHTML = "";
-
-  const searchValue = document.getElementById("searchInput").value.toLowerCase();
-  let filtered = allUsers.filter(u =>
-    u.fullName.toLowerCase().includes(searchValue) ||
-    u.email.toLowerCase().includes(searchValue) ||
-    u.city.toLowerCase().includes(searchValue) ||
-    (u.phone || "").toLowerCase().includes(searchValue)
-  );
-
-  // Apply filter
-  if (currentFilter === "active") filtered = filtered.filter(u => u.isOnline);
-  if (currentFilter === "offline") filtered = filtered.filter(u => !u.isOnline);
-
-  const totalPages = Math.ceil(filtered.length / pageSize);
-  if (currentPage > totalPages) currentPage = totalPages || 1;
-
-  const start = (currentPage - 1) * pageSize;
-  const pageUsers = filtered.slice(start, start + pageSize);
-
-  // Render Bootstrap cards
-  const row = document.createElement("div");
-  row.className = "row g-3";
-
-  pageUsers.forEach(user => {
-    const statusColor = user.isOnline ? "#00A859" : "#9BACCA";
-    const statusText = user.isOnline ? "Active" : "Offline";
-
-    const card = `
-      <div class="col-md-3">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <img src="${user.image}" class="rounded-circle mb-2" width="60" height="60" alt="">
-            <h6 class="mb-0">${user.fullName}</h6>
-            <small class="text-muted">@${user.fullName.split(" ")[0].toLowerCase()}</small>
-            <div class="mt-2 d-flex justify-content-center align-items-center">
-              <i class="fa-solid fa-circle me-2" style="color:${statusColor}"></i>
-              <span class="small">${statusText}</span>
-            </div>
-            <div class="mt-2">
-              <small><i class="fa-solid fa-envelope me-1"></i>${user.role}</small><br>
-              <small><i class="fa-solid fa-location-dot me-1"></i>${user.city}</small><br>
-              <small><i class="fa-solid fa-phone me-1"></i>${user.phone || "-"}</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-    row.insertAdjacentHTML("beforeend", card);
-  });
-
-  container.appendChild(row);
-  document.getElementById("pageInfo").textContent = `Page ${currentPage} of ${totalPages || 1}`;
-}
-
-// Pagination
-document.getElementById("prevPage").addEventListener("click", () => {
-  if (currentPage > 1) { currentPage--; renderUsers(); }
-});
-document.getElementById("nextPage").addEventListener("click", () => {
-  const totalPages = Math.ceil(allUsers.length / pageSize);
-  if (currentPage < totalPages) { currentPage++; renderUsers(); }
-});
-
-// Search toggle
-document.getElementById("searchIcon").addEventListener("click", () => {
-  const input = document.getElementById("searchInput");
-  input.style.display = input.style.display === "none" ? "inline-block" : "none";
-  if (input.style.display === "inline-block") input.focus();
-});
-
-// Search input typing
-document.getElementById("searchInput").addEventListener("input", () => {
-  currentPage = 1;
-  renderUsers();
-});
-
-// Filter buttons with active state toggle
-function setActiveFilter(filter, btnId) {
-  currentFilter = filter;
-  document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-  document.getElementById(btnId).classList.add("active");
-  currentPage = 1;
-  renderUsers();
-}
-
-document.getElementById("filterAll").addEventListener("click", () => setActiveFilter("all", "filterAll"));
-document.getElementById("filterActive").addEventListener("click", () => setActiveFilter("active", "filterActive"));
-document.getElementById("filterOffline").addEventListener("click", () => setActiveFilter("offline", "filterOffline"));
-
-// Init render
-document.addEventListener("DOMContentLoaded", renderUsers);
-
-  </script>
+ 
 
 
 
