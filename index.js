@@ -1255,6 +1255,40 @@ function formatK(num) {
 
 
 
+// function logOut() {
+//   Swal.fire({
+//     title: 'Are you sure?',
+//     text: "You will be logged out of your account.",
+//     icon: 'warning',
+//     showCancelButton: true,
+//     confirmButtonColor: '#d33',
+//     cancelButtonColor: '#3085D6',
+//     confirmButtonText: 'Yes, log me out',
+//     cancelButtonText: 'Cancel'
+//   }).then((result) => {
+//     if (result.isConfirmed) {
+//       // :siren: Clear stored login data
+//       localStorage.removeItem("key");
+//       localStorage.removeItem("role");
+//       localStorage.removeItem("customerid");
+//       localStorage.removeItem("customerloginid");
+//       localStorage.removeItem("city");
+//       Swal.fire({
+//         icon: 'success',
+//         title: 'Logged out',
+//         text: 'You have been successfully logged out.',
+//         confirmButtonColor: '#28A745'
+//       }).then(() => {
+//         location.href = "signin.html"; // redirect to login page
+//       });
+//     }
+//   });
+// }
+
+
+// Highlight active sidebar link automatically
+
+
 function logOut() {
   Swal.fire({
     title: 'Are you sure?',
@@ -1267,26 +1301,34 @@ function logOut() {
     cancelButtonText: 'Cancel'
   }).then((result) => {
     if (result.isConfirmed) {
-      // :siren: Clear stored login data
+      // 🧹 Clear stored login/session data
+      localStorage.removeItem("token");
       localStorage.removeItem("key");
       localStorage.removeItem("role");
       localStorage.removeItem("customerid");
       localStorage.removeItem("customerloginid");
       localStorage.removeItem("city");
+
       Swal.fire({
         icon: 'success',
         title: 'Logged out',
         text: 'You have been successfully logged out.',
         confirmButtonColor: '#28A745'
       }).then(() => {
-        location.href = "signin.html"; // redirect to login page
+        // 🚪 Redirect to session expired page (not login)
+        window.location.replace("auth.html");
       });
     }
   });
 }
 
 
-// Highlight active sidebar link automatically
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const currentPage = window.location.pathname.split("/").pop();
   const links = document.querySelectorAll(".sidebar .nav-link");

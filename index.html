@@ -9,9 +9,12 @@
   <link rel="stylesheet" href="style.css">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    
-  </style>
+  <!-- caching meta tags (see next section) -->
+  <script src="/path/to/auth.js" defer></script>
+  <!-- other scripts that depend on auth should come after -->
+   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 </head>
 <body>
      <!-- Desktop Navbar (visible on md and up) -->
@@ -767,6 +770,13 @@
     document.addEventListener("DOMContentLoaded", loadTrendChart);
     </script>
 
+
+    <script>
+  const token = localStorage.getItem("token") || localStorage.getItem("key");
+  if (!token) {
+    window.location.replace("session-expired.html");
+  }
+</script>
 
 
 
