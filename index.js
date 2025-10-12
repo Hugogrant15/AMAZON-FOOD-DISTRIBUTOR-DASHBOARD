@@ -198,6 +198,30 @@ async function loadProductsForDashboard() {
 document.addEventListener("DOMContentLoaded", loadProductsForDashboard);
 
 
+// function toggleNotification(event) {
+//   event.preventDefault();
+//   event.stopPropagation(); // stop click bubbling
+
+//   // detect viewport (mobile vs desktop)
+//   const isMobile = window.innerWidth < 768;
+
+//   // pick the right popup
+//   const popup = document.getElementById(isMobile ? 'notificationPopUp1' : 'notificationPopUp');
+
+//   // toggle visibility
+//   if (popup.style.display === 'none' || popup.style.display === '') {
+//     popup.style.display = 'block';
+//   } else {
+//     popup.style.display = 'none';
+//   }
+
+//   // hide the other one (if open)
+//   const otherPopup = document.getElementById(isMobile ? 'notificationPopUp' : 'notificationPopUp1');
+//   if (otherPopup) otherPopup.style.display = 'none';
+// }
+
+// hide both when clicking outside
+
 function toggleNotification(event) {
   event.preventDefault();
   event.stopPropagation(); // stop click bubbling
@@ -209,18 +233,43 @@ function toggleNotification(event) {
   const popup = document.getElementById(isMobile ? 'notificationPopUp1' : 'notificationPopUp');
 
   // toggle visibility
-  if (popup.style.display === 'none' || popup.style.display === '') {
-    popup.style.display = 'block';
-  } else {
-    popup.style.display = 'none';
-  }
+  const isHidden = popup.style.display === 'none' || popup.style.display === '';
+  popup.style.display = isHidden ? 'block' : 'none';
 
   // hide the other one (if open)
   const otherPopup = document.getElementById(isMobile ? 'notificationPopUp' : 'notificationPopUp1');
   if (otherPopup) otherPopup.style.display = 'none';
+
+  // ✅ Mark all notifications as seen when the popup is opened
+  if (isHidden) {
+    const badges = [
+      document.getElementById('notificationBadge'),
+      document.getElementById('notificationBadge1'),
+    ];
+
+    // hide both badges visually
+    badges.forEach((badge) => {
+      if (badge) {
+        badge.style.transition = 'opacity 0.3s';
+        badge.style.opacity = 0;
+        setTimeout(() => (badge.style.display = 'none'), 300);
+      }
+    });
+
+    // update last seen time
+    localStorage.setItem('lastSeenOrderTime', new Date().toISOString());
+  }
 }
 
-// hide both when clicking outside
+
+
+
+
+
+
+
+
+
 document.addEventListener('click', function (e) {
   const popup1 = document.getElementById('notificationPopUp');
   const popup2 = document.getElementById('notificationPopUp1');
@@ -738,20 +787,20 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCityOrdersFeed();
 
   // ✅ Bell click → mark as seen
-  document.body.addEventListener("click", (e) => {
-    if (e.target.closest(".btnSharp")) {
-      const badges = [
-        document.getElementById("notificationBadge"),
-        document.getElementById("notificationBadge1"),
-      ];
-      badges.forEach((badge) => {
-        if (badge) badge.style.display = "none";
-      });
+  // document.body.addEventListener("click", (e) => {
+  //   if (e.target.closest(".btnSharp")) {
+  //     const badges = [
+  //       document.getElementById("notificationBadge"),
+  //       document.getElementById("notificationBadge1"),
+  //     ];
+  //     badges.forEach((badge) => {
+  //       if (badge) badge.style.display = "none";
+  //     });
 
-      // Mark latest order time as seen
-      localStorage.setItem("lastSeenOrderTime", new Date().toISOString());
-    }
-  });
+  //     // Mark latest order time as seen
+  //     localStorage.setItem("lastSeenOrderTime", new Date().toISOString());
+  //   }
+  // });
 
   // 🔁 Auto-refresh every 30 seconds
   setInterval(loadCityOrdersFeed, 30000);
