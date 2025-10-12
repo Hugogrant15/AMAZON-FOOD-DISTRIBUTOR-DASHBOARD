@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", loadProducts);
 
 
 
-// function to load customers by distributor location 
+// function to load customers(CUSTOMER.HTML RENDERING) by distributor location 
 
 document.addEventListener("DOMContentLoaded", () => {
   let allUsers = [];   // store all unique users
@@ -504,9 +504,9 @@ async function loadCustomerCards() {
     console.error("Error loading customer cards:", err);
   }
 }
-
 document.addEventListener("DOMContentLoaded", loadCustomerCards);
   
+
 // customer order modal popup 
 let currentCustomerOrders = [];
 let currentPages = 1;
@@ -730,7 +730,6 @@ document.addEventListener("DOMContentLoaded", loadLatestOrders);
 
 
 // LOAD CUSTOMER NOTIFICATION FEED (with unseen tracking)
-// =====================
 let lastSeenOrderTime = localStorage.getItem("lastSeenOrderTime") 
   ? new Date(localStorage.getItem("lastSeenOrderTime")) 
   : new Date(0);
@@ -903,166 +902,189 @@ function updateNotificationBadge(count) {
 // 📬 Full Notifications.html Page rendering
 // =============================
 document.addEventListener("DOMContentLoaded", () => {
-const container = document.getElementById("notificationsContainer");
-const pagination = document.getElementById("pagination");
-const paginationInfo = document.getElementById("paginationInfo");
+  const container = document.getElementById("notificationsContainer");
+  const pagination = document.getElementById("pagination");
+  const paginationInfo = document.getElementById("paginationInfo");
 
-let allOrders = [];
-let currentPage = 1;
-const pageSize = 10;
+  let allOrders = [];
+  let currentPage = 1;
+  const pageSize = 10;
 
-document.addEventListener("DOMContentLoaded", loadNotifications);
+  // ✅ Call directly (no nested DOMContentLoaded)
+  loadNotifications();
 
-async function loadNotifications() {
-  const distributorCity = localStorage.getItem("city");
-  const lastSeenOrderTime = localStorage.getItem("lastSeenOrderTime")
-    ? new Date(localStorage.getItem("lastSeenOrderTime"))
-    : new Date(0);
+  async function loadNotifications() {
+    const distributorCity = localStorage.getItem("city");
+    const lastSeenOrderTime = localStorage.getItem("lastSeenOrderTime")
+      ? new Date(localStorage.getItem("lastSeenOrderTime"))
+      : new Date(0);
 
-  if (!distributorCity) {
-    container.innerHTML =
-      "<p class='text-muted'>City not found in localStorage.</p>";
-    return;
+    if (!distributorCity) {
+      container.innerHTML =
+        "<p class='text-muted'>City not found in localStorage.</p>";
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:3001/amazon/document/api/orders");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      // Filter + sort newest first
+      allOrders = data
+        .filter(
+          (o) =>
+            o.customerSnapshot?.city?.toLowerCase() ===
+            distributorCity.toLowerCase()
+        )
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      if (!allOrders.length) {
+        container.innerHTML =
+          "<p class='text-center text-muted my-3'>No notifications found.</p>";
+        return;
+      }
+
+      renderPage(lastSeenOrderTime);
+    } catch (err) {
+      console.error("❌ Error loading notifications:", err);
+      container.innerHTML =
+        "<p class='text-danger'>Error loading notifications.</p>";
+    }
   }
 
-  try {
-    const res = await fetch("http://localhost:3001/amazon/document/api/orders");
-    const data = await res.json();
+  function renderPage(lastSeenOrderTime) {
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    const pageData = allOrders.slice(start, end);
 
-    // Filter + sort newest first
-    allOrders = data
-      .filter(
-        (o) =>
-          o.customerSnapshot?.city?.toLowerCase() ===
-          distributorCity.toLowerCase()
-      )
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    if (!pageData.length) {
+      container.innerHTML =
+        "<p class='text-center text-muted my-3'>No notifications found.</p>";
+      pagination.innerHTML = "";
+      paginationInfo.textContent = "";
+      return;
+    }
 
-    renderPage(lastSeenOrderTime);
-  } catch (err) {
-    console.error("Error loading notifications:", err);
-    container.innerHTML =
-      "<p class='text-danger'>Error loading notifications.</p>";
-  }
-}
+    container.innerHTML = pageData
+      .map((order) => {
+    const firstName = order.customerSnapshot?.firstName || "Unknown";
+    const lastName = order.customerSnapshot?.lastName
+      ? order.customerSnapshot.lastName.charAt(0) + "."
+      : "";
+    const total = order.totalAmount ? order.totalAmount.toLocaleString() : "0";
+    const payment = order.paymentStatus || "pending";
+    const createdAt = new Date(order.createdAt);
+    const timeAgo = formatTimeAgo(createdAt);
+    const isUnread = createdAt > lastSeenOrderTime;
+    const avatar = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=random`;
 
-function renderPage(lastSeenOrderTime) {
-  const start = (currentPage - 1) * pageSize;
-  const end = start + pageSize;
-  const pageData = allOrders.slice(start, end);
+    // 🛍️ Build proper product string (from your DB schema)
+    let products = "some products";
+    if (Array.isArray(order.items) && order.items.length > 0) {
+      const productList = order.items.map((item) => {
+        const productName = item.name || "Product";
+        const quantity = item.quantity || 1;
+        return `${quantity} ${productName}`;
+      });
 
-  if (!pageData.length) {
-    container.innerHTML =
-      "<p class='text-center text-muted my-3'>No notifications found.</p>";
-    pagination.innerHTML = "";
-    paginationInfo.textContent = "";
-    return;
-  }
+      if (productList.length === 1) {
+        products = productList[0];
+      } else if (productList.length === 2) {
+        products = productList.join(" and ");
+      } else {
+        products =
+          productList.slice(0, -1).join(", ") +
+          " and " +
+          productList[productList.length - 1];
+      }
+    }
 
-  container.innerHTML = pageData
-    .map((order) => {
-      const firstName = order.customerSnapshot?.firstName || "Unknown";
-      const lastName = order.customerSnapshot?.lastName
-        ? order.customerSnapshot.lastName.charAt(0) + "."
-        : "";
-      const total = order.totalAmount
-        ? order.totalAmount.toLocaleString()
-        : "0";
-      const payment = order.paymentStatus || "pending";
-      const createdAt = new Date(order.createdAt);
-      const timeAgo = formatTimeAgo(createdAt);
-
-      const isUnread = createdAt > lastSeenOrderTime;
-      const avatar = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=random`;
-
-      return `
-        <div class="notif-item ${isUnread ? "unread" : ""}">
-          <div class="notif-left">
-            <img src="${avatar}" class="rounded-circle" width="40" height="40" />
+    return `
+      <div class="notif-item ${isUnread ? "unread" : ""}">
+        <div class="notif-left">
+          <img src="${avatar}" class="rounded-circle" width="40" height="40" />
+          <div>
             <div>
-              <div><strong>${firstName} ${lastName}</strong> placed an order worth ₦${total}</div>
-              <div class="small text-muted text-capitalize">${payment}</div>
+              <strong>${firstName} ${lastName}</strong> just ordered ${products}.
+            </div>
+            <div class="small text-muted text-capitalize">
+              ₦${total} • ${payment}
             </div>
           </div>
-          <div class="notif-time">${timeAgo}</div>
         </div>
-      `;
-    })
-    .join("");
+        <div class="notif-time">${timeAgo}</div>
+      </div>
+    `;
+  })
+  .join("");
 
-  paginationInfo.textContent = `Showing ${start + 1}–${Math.min(
-    end,
-    allOrders.length
-  )} of ${allOrders.length}`;
+    paginationInfo.textContent = `Showing ${start + 1}–${Math.min(
+      end,
+      allOrders.length
+    )} of ${allOrders.length}`;
 
-  renderPagination();
-}
-
-function renderPagination() {
-  const totalPages = Math.ceil(allOrders.length / pageSize);
-  pagination.innerHTML = "";
-
-  const createPageItem = (page, label = page) => `
-    <li class="page-item ${page === currentPage ? "active" : ""}">
-      <a class="page-link" href="#" data-page="${page}">${label}</a>
-    </li>
-  `;
-
-  // Prev button
-  pagination.innerHTML += createPageItem(currentPage - 1, "&lt;");
-  document
-    .querySelector(".page-item:first-child a")
-    ?.setAttribute("aria-label", "Previous");
-
-  // Page numbers
-  for (let i = 1; i <= totalPages; i++) {
-    pagination.innerHTML += createPageItem(i);
+    renderPagination();
   }
 
-  // Next button
-  pagination.innerHTML += createPageItem(currentPage + 1, "&gt;");
-  document
-    .querySelector(".page-item:last-child a")
-    ?.setAttribute("aria-label", "Next");
+  function renderPagination() {
+    const totalPages = Math.ceil(allOrders.length / pageSize);
+    pagination.innerHTML = "";
 
-  // Disable prev/next if at limits
-  if (currentPage === 1)
-    pagination.firstElementChild.classList.add("disabled");
-  if (currentPage === totalPages)
-    pagination.lastElementChild.classList.add("disabled");
+    const createPageItem = (page, label = page) => `
+      <li class="page-item ${page === currentPage ? "active" : ""}">
+        <a class="page-link" href="#" data-page="${page}">${label}</a>
+      </li>
+    `;
 
-  // Click events
-  pagination.querySelectorAll("a").forEach((btn) =>
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const page = parseInt(btn.dataset.page);
-      if (page > 0 && page <= totalPages && page !== currentPage) {
-        currentPage = page;
-        renderPage(new Date(localStorage.getItem("lastSeenOrderTime")));
-      }
-    })
-  );
-}
+    // Prev button
+    pagination.innerHTML += createPageItem(currentPage - 1, "&lt;");
 
-function formatTimeAgo(date) {
-  const now = new Date();
-  const seconds = Math.floor((now - date) / 1000);
-  const intervals = [
-    { label: "year", seconds: 31536000 },
-    { label: "month", seconds: 2592000 },
-    { label: "day", seconds: 86400 },
-    { label: "hour", seconds: 3600 },
-    { label: "min", seconds: 60 },
-  ];
-  for (const i of intervals) {
-    const count = Math.floor(seconds / i.seconds);
-    if (count >= 1)
-      return `${count} ${i.label}${count > 1 ? "s" : ""} ago`;
+    // Page numbers
+    for (let i = 1; i <= totalPages; i++) {
+      pagination.innerHTML += createPageItem(i);
+    }
+
+    // Next button
+    pagination.innerHTML += createPageItem(currentPage + 1, "&gt;");
+
+    // Disable prev/next if at limits
+    if (currentPage === 1)
+      pagination.firstElementChild.classList.add("disabled");
+    if (currentPage === totalPages)
+      pagination.lastElementChild.classList.add("disabled");
+
+    // Click events
+    pagination.querySelectorAll("a").forEach((btn) =>
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const page = parseInt(btn.dataset.page);
+        if (page > 0 && page <= totalPages && page !== currentPage) {
+          currentPage = page;
+          renderPage(new Date(localStorage.getItem("lastSeenOrderTime")));
+        }
+      })
+    );
   }
-  return "just now";
-}
+
+  function formatTimeAgo(date) {
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+    const intervals = [
+      { label: "year", seconds: 31536000 },
+      { label: "month", seconds: 2592000 },
+      { label: "day", seconds: 86400 },
+      { label: "hour", seconds: 3600 },
+      { label: "min", seconds: 60 },
+    ];
+    for (const i of intervals) {
+      const count = Math.floor(seconds / i.seconds);
+      if (count >= 1)
+        return `${count} ${i.label}${count > 1 ? "s" : ""} ago`;
+    }
+    return "just now";
+  }
 });
-
 
 // Best-selling products (donut) with year navigation and robust handling
 document.addEventListener("DOMContentLoaded", () => {
@@ -1239,96 +1261,7 @@ function formatK(num) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function logOut() {
-//   Swal.fire({
-//     title: 'Are you sure?',
-//     text: "You will be logged out of your account.",
-//     icon: 'warning',
-//     showCancelButton: true,
-//     confirmButtonColor: '#d33',
-//     cancelButtonColor: '#3085D6',
-//     confirmButtonText: 'Yes, log me out',
-//     cancelButtonText: 'Cancel'
-//   }).then((result) => {
-//     if (result.isConfirmed) {
-//       // :siren: Clear stored login data
-//       localStorage.removeItem("key");
-//       localStorage.removeItem("role");
-//       localStorage.removeItem("customerid");
-//       localStorage.removeItem("customerloginid");
-//       localStorage.removeItem("city");
-//       Swal.fire({
-//         icon: 'success',
-//         title: 'Logged out',
-//         text: 'You have been successfully logged out.',
-//         confirmButtonColor: '#28A745'
-//       }).then(() => {
-//         location.href = "signin.html"; // redirect to login page
-//       });
-//     }
-//   });
-// }
-
-
-// Highlight active sidebar link automatically
-
-
-function logOut() {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: "You will be logged out of your account.",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085D6',
-    confirmButtonText: 'Yes, log me out',
-    cancelButtonText: 'Cancel'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // 🧹 Clear stored login/session data
-      localStorage.removeItem("token");
-      localStorage.removeItem("key");
-      localStorage.removeItem("role");
-      localStorage.removeItem("customerid");
-      localStorage.removeItem("customerloginid");
-      localStorage.removeItem("city");
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Logged out',
-        text: 'You have been successfully logged out.',
-        confirmButtonColor: '#28A745'
-      }).then(() => {
-        // 🚪 Redirect to session expired page (not login)
-        window.location.replace("auth.html");
-      });
-    }
-  });
-}
-
-
-
-
-
-
-
-
+// SHOW CURRENT ACTIVE PAGE IN SIDEBAR
 document.addEventListener("DOMContentLoaded", () => {
   const currentPage = window.location.pathname.split("/").pop();
   const links = document.querySelectorAll(".sidebar .nav-link");
@@ -1370,8 +1303,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ========== Dashboard Filter Function ==========
 function filterDashboardItems(searchValue) {
-  // Example: Adjust to match your dashboard content.
-  // This could be your orders, users, or products table.
   
   const rows = document.querySelectorAll("#ordersTableBody tr, #usersTableBody tr");
   rows.forEach(row => {
@@ -1553,3 +1484,35 @@ function filterDashboardItems(searchValue) {
 
 
 
+function logOut() {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You will be logged out of your account.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085D6',
+    confirmButtonText: 'Yes, log me out',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // 🧹 Clear stored login/session data
+      localStorage.removeItem("token");
+      localStorage.removeItem("key");
+      localStorage.removeItem("role");
+      localStorage.removeItem("customerid");
+      localStorage.removeItem("customerloginid");
+      localStorage.removeItem("city");
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged out',
+        text: 'You have been successfully logged out.',
+        confirmButtonColor: '#28A745'
+      }).then(() => {
+        // 🚪 Redirect to session expired page (not login)
+        window.location.replace("auth.html");
+      });
+    }
+  });
+}

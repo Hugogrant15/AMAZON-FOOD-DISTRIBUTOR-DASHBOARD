@@ -73,18 +73,18 @@
 
           <!-- Search -->
            <div class="search-container">
-  <button class="btn p-0" id="mobileSearchBtn" aria-label="Open search">
-    <i class="fa-solid fa-magnifying-glass fs-5 text-muted"></i>
-  </button>
+            <button class="btn p-0" id="mobileSearchBtn" aria-label="Open search">
+              <i class="fa-solid fa-magnifying-glass fs-5 text-muted"></i>
+            </button>
 
-  <input
-    type="text"
-    id="mobileSearchInput"
-    class="mobile-search-input"
-    placeholder="Search dashboard..."
-    aria-label="Search dashboard"
-  />
-</div>
+            <input
+              type="text"
+              id="mobileSearchInput"
+              class="mobile-search-input"
+              placeholder="Search dashboard..."
+              aria-label="Search dashboard"
+            />
+          </div>
 
           <!-- <div class="search-container position-relative">
             <button class="btn p-0" id="mobileSearchBtn">
@@ -112,7 +112,7 @@
               class="rounded-circle"
               alt="Profile" width="40" height="40">
         </div>
-        <div class="col-md-4" id="notificationPopUp1">
+              <div class="col-md-4" id="notificationPopUp1">
                   <div class="card p-3" style=" overflow-y: auto;">
                     <h6 class="fw-bold mb-3">Recent Activities in Your City</h6>
                     <ul class="list-unstyled" id="activityFeed1"></ul>
@@ -311,23 +311,23 @@
               </div>
 
               <div class="col-md-4">
-  <div class="card p-3 text-center position-relative">
-    <!-- Year navigation -->
-    <div class="d-flex justify-content-between align-items-center mb-2">
-      <i class="fas fa-chevron-left text-muted small year-nav" id="prevYear" style="cursor: pointer;"></i>
-      <h6 class="mb-0" id="chartYear">2025</h6>
-      <i class="fas fa-chevron-right text-muted small year-nav" id="nextYear" style="cursor: pointer;"></i>
-    </div>
+              <div class="card p-3 text-center position-relative">
+                <!-- Year navigation -->
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <i class="fas fa-chevron-left text-muted small year-nav" id="prevYear" style="cursor: pointer;"></i>
+                  <h6 class="mb-0" id="chartYear">2025</h6>
+                  <i class="fas fa-chevron-right text-muted small year-nav" id="nextYear" style="cursor: pointer;"></i>
+                </div>
 
-    <!-- Chart container -->
-    <div style="position: relative; height: 200px; width: 100%;">
-      <canvas id="bestSellingChart"></canvas>
-    </div>
+                <!-- Chart container -->
+                <div style="position: relative; height: 200px; width: 100%;">
+                  <canvas id="bestSellingChart"></canvas>
+                </div>
 
-    <!-- Legend (product list) -->
-    <div id="productLegend" class="text-start small mt-3"></div>
-  </div>
-</div>
+                <!-- Legend (product list) -->
+                <div id="productLegend" class="text-start small mt-3"></div>
+              </div>
+            </div>
               
 
             <!-- Customers & Orders -->
@@ -344,30 +344,30 @@
         </div>
               </div>
               <div class="col-md-8">
-        <div class="card p-3 shadow border-0 h-100">
-          <h6>Order List</h6>
-          <div class="table-responsive">
-            <table class="table big-table table-borderless">
-              <thead class="tablePad">
-                <tr>
-                  <th>Payment Number</th>
-                  <th>Date & Time</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="latestOrdersBody">
-                <!-- Latest 4 orders will be injected here -->
-              </tbody>
-            </table>
-            <div class="text-center">
-              <button class="TableBUTon" onclick="window.location.href='orders.html'">
-                View All Transaction
-              </button>
+          <div class="card p-3 shadow border-0 h-100">
+            <h6>Order List</h6>
+            <div class="table-responsive">
+              <table class="table big-table table-borderless">
+                <thead class="tablePad">
+                  <tr>
+                    <th>Payment Number</th>
+                    <th>Date & Time</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="latestOrdersBody">
+                  <!-- Latest 4 orders will be injected here -->
+                </tbody>
+              </table>
+              <div class="text-center">
+                <button class="TableBUTon" onclick="window.location.href='orders.html'">
+                  View All Transaction
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
             </div>
 
