@@ -44,8 +44,8 @@
                 </button>
 
 
-                <img class="me-3 rounded-circle" src="./images/cheerful-curly-man-with-bristle-points-left-wears-casual-clothes-spectacles 1.png" alt="" width="40" height="40">
-                <span class="CustomP-14-400 me-3 text-dark fw-semibold">Michael Owen</span>
+                <img id="userAvatar" class="me-3 rounded-circle" src="./images/cheerful-curly-man-with-bristle-points-left-wears-casual-clothes-spectacles 1.png" alt="User Avatar" width="40" height="40">
+                <span id="userName" class="CustomP-14-400 me-3 text-dark fw-semibold"></span>
               </div>
             </form>
             <!-- notification pop-up  -->
@@ -133,7 +133,7 @@
             <hr>
             <li><a href="#" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-message me-3"></i>Reviews</a></li>
             <li><a href="#" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-gear me-3"></i>Settings</a></li>
-            <li><a onclick="logOut()" style="cursor:pointer; text-decoration: none; color: #8D98AF"><i class="fa-solid fa-arrow-right-from-bracket me-3"></i>Logout</a></li>
+            <li><a onclick="logOut(event)" style="cursor:pointer; text-decoration: none; color: #8D98AF"><i class="fa-solid fa-arrow-right-from-bracket me-3"></i>Logout</a></li>
           </ul>
         </div>
       </div>
@@ -188,13 +188,13 @@
               </a>
             </li>
             <li class="mt-5">
-              <a href="#" class="nav-link  Dashbutton" onclick="logOut()">
+              <a href="" class="nav-link  Dashbutton" onclick="logOut(event)">
                 <i class="fa-solid fa-arrow-right-from-bracket me-lg-3 me-md-1"></i>
                 <span>Logout</span>
               </a>
             </li>
           </ul>
-        </div>
+    </div>
 
     <!-- Main Content -->
     <div class="col-md-10 p-4">
@@ -390,11 +390,19 @@
   </div>
     </div>
 
+    <!-- PREFIL DISTRIBUTOR NAME ON DASHBOARD  -->
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const distributorName = localStorage.getItem("name") || "Distributor";
+    document.getElementById("userName").textContent = distributorName;
+  });
+    </script>
 
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./index.js"></script>
 
 </body>

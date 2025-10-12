@@ -46,6 +46,7 @@ function distributorLogin(event) {
             localStorage.setItem("key", result.token);
             localStorage.setItem("customerloginid", result._id);
             localStorage.setItem("city", payload.city);
+            localStorage.setItem("name", result.name || "Distributor");
 
             const currentId = localStorage.getItem('customerloginid');
             const previousId = localStorage.getItem('customerid');
@@ -955,6 +956,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const pagination = document.getElementById("pagination");
   const paginationInfo = document.getElementById("paginationInfo");
 
+   if (!container) return;
+   
   let allOrders = [];
   let currentPage = 1;
   const pageSize = 10;
@@ -1533,7 +1536,8 @@ function filterDashboardItems(searchValue) {
 
 
 
-function logOut() {
+function logOut(event) {
+  event.preventDefault();
   Swal.fire({
     title: 'Are you sure?',
     text: "You will be logged out of your account.",
@@ -1552,6 +1556,9 @@ function logOut() {
       localStorage.removeItem("customerid");
       localStorage.removeItem("customerloginid");
       localStorage.removeItem("city");
+      localStorage.removeItem("name");
+      
+
 
       Swal.fire({
         icon: 'success',
@@ -1560,7 +1567,7 @@ function logOut() {
         confirmButtonColor: '#28A745'
       }).then(() => {
         // 🚪 Redirect to session expired page (not login)
-        window.location.replace("auth.html");
+        window.location.replace("signin.html");
       });
     }
   });

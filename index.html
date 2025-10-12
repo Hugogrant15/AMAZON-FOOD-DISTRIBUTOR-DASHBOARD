@@ -47,8 +47,8 @@
                 </button>
 
 
-                <img class="me-3 rounded-circle" src="./images/cheerful-curly-man-with-bristle-points-left-wears-casual-clothes-spectacles 1.png" alt="" width="40" height="40">
-                <span class="CustomP-14-400 me-3 text-dark fw-semibold">Michael Owen</span>
+                <img id="userAvatar" class="me-3 rounded-circle" src="./images/cheerful-curly-man-with-bristle-points-left-wears-casual-clothes-spectacles 1.png" alt="User Avatar" width="40" height="40">
+                <span id="userName" class="CustomP-14-400 me-3 text-dark fw-semibold"></span>
               </div>
             </form>
             <!-- notification pop-up  -->
@@ -136,7 +136,7 @@
             <hr>
             <li><a href="#" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-message me-3"></i>Reviews</a></li>
             <li><a href="#" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-gear me-3"></i>Settings</a></li>
-            <li><a onclick="logOut()" style="cursor:pointer; text-decoration: none; color: #8D98AF"><i class="fa-solid fa-arrow-right-from-bracket me-3"></i>Logout</a></li>
+            <li><a onclick="logOut(event)" style="cursor:pointer; text-decoration: none; color: #8D98AF"><i class="fa-solid fa-arrow-right-from-bracket me-3"></i>Logout</a></li>
           </ul>
         </div>
       </div>
@@ -190,7 +190,7 @@
               </a>
             </li>
             <li class="mt-5">
-              <a href="#" class="nav-link  Dashbutton" onclick="logOut()">
+              <a href="#" class="nav-link  Dashbutton" onclick="logOut(event)">
                 <i class="fa-solid fa-arrow-right-from-bracket me-lg-3 me-md-1"></i>
                 <span>Logout</span>
               </a>
@@ -772,11 +772,30 @@
 
 
     <script>
-  const token = localStorage.getItem("token") || localStorage.getItem("key");
-  if (!token) {
-    window.location.replace("session-expired.html");
-  }
-</script>
+      const token = localStorage.getItem("token") || localStorage.getItem("key");
+
+      // ✅ Block access if distributor logs out and tries to go back
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+          if (!token) {
+            window.location.replace("auth.html");
+          }
+        }
+      });
+
+      // ✅ Also block normal direct access if not logged in
+      if (!token) {
+        window.location.replace("auth.html");
+      }
+    </script>
+
+    <!-- PREFIL DISTRIBUTOR NAME ON DASHBOARD  -->
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const distributorName = localStorage.getItem("name") || "Distributor";
+    document.getElementById("userName").textContent = distributorName;
+  });
+    </script>
 
 
 
