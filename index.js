@@ -957,7 +957,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const paginationInfo = document.getElementById("paginationInfo");
 
    if (!container) return;
-   
+
   let allOrders = [];
   let currentPage = 1;
   const pageSize = 10;
@@ -1557,9 +1557,13 @@ function logOut(event) {
       localStorage.removeItem("customerloginid");
       localStorage.removeItem("city");
       localStorage.removeItem("name");
+
+      // 🛑 Prevent back button returning to dashboard
+      history.pushState(null, null, location.href);
+      window.addEventListener('popstate', () => {
+        history.pushState(null, null, location.href);
+      });
       
-
-
       Swal.fire({
         icon: 'success',
         title: 'Logged out',

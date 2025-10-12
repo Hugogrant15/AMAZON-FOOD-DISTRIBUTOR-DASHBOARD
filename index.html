@@ -9,12 +9,13 @@
   <link rel="stylesheet" href="style.css">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- caching meta tags (see next section) -->
-  <script src="/path/to/auth.js" defer></script>
-  <!-- other scripts that depend on auth should come after -->
+
+  <!-- Auth protection -->
+  <script src="./auth.js" defer></script>
+  <!-- Prevent browser caching (important for logout + back button) -->
    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
+   <meta http-equiv="Pragma" content="no-cache" />
+   <meta http-equiv="Expires" content="0" />
 </head>
 <body>
      <!-- Desktop Navbar (visible on md and up) -->
@@ -197,39 +198,7 @@
             </li>
           </ul>
         </div>
-        <!-- <div class="col-md-2 sidebar d-md-block d-none">
-        <ul class="listItem ">
-                <li">
-                <a href="index.html" class="active" style="text-decoration: none; color: #8D98AF; "><i class="fa-solid fa-house me-3"></i></span><span>Dashboard</span></a>
-                </li>
-                
-                <li>
-                  <a href="./orders.html" class="" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-cart-shopping me-3"></i></span><span>Order</span></a>
-                  </li>
-                <li>
-                <a href="./customers.html" style="text-decoration: none; color:#8D98AF;"><i class="fa-solid fa-user me-3"></i></span><span>Customers</span></a>
-                </li>
-                <li>
-                    <a href="./inventory.html" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-warehouse me-3"></i></span><span>Inventory</span></a>
-                </li>
-                <li>
-                    <a href="./notifications.html" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-bell me-3"></i></span><span>Notification</span></a>
-                </li>
-                <hr>
-                <li class="">
-                    <a href="" style="text-decoration: none; color: #8D98AF;"><i class="fa-solid fa-message me-3"></i></span><span>Reviews</span></a>
-                </li>
-                <li class="">
-                    <a href="" style="text-decoration: none; color: #8D98AF;" ><i class="fa-solid fa-gear me-3"></i></span><span>settings</span></a>
-                </li>
-                
-
-                <button class="Dashbutton mt-5 " style="cursor: pointer;" onclick="logOut()">
-                <a  style="text-decoration: none; color:#8D98AF ; "><i class="fa-solid fa-arrow-right-from-bracket me-3"></i></span><span class="logspan">Logout</span></a>
-                </li>
-          </ul>
-        </div> -->
-
+        
         <!-- Main Content -->
         <div class="col-md-10 p-lg-3 p-2">
           <!-- Top Metrics -->
@@ -344,30 +313,30 @@
         </div>
               </div>
               <div class="col-md-8">
-          <div class="card p-3 shadow border-0 h-100">
-            <h6>Order List</h6>
-            <div class="table-responsive">
-              <table class="table big-table table-borderless">
-                <thead class="tablePad">
-                  <tr>
-                    <th>Payment Number</th>
-                    <th>Date & Time</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody id="latestOrdersBody">
-                  <!-- Latest 4 orders will be injected here -->
-                </tbody>
-              </table>
-              <div class="text-center">
-                <button class="TableBUTon" onclick="window.location.href='orders.html'">
-                  View All Transaction
-                </button>
+                <div class="card p-3 shadow border-0 h-100">
+                  <h6>Order List</h6>
+                  <div class="table-responsive">
+                    <table class="table big-table table-borderless">
+                      <thead class="tablePad">
+                        <tr>
+                          <th>Payment Number</th>
+                          <th>Date & Time</th>
+                          <th>Amount</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="latestOrdersBody">
+                        <!-- Latest 4 orders will be injected here -->
+                      </tbody>
+                    </table>
+                    <div class="text-center">
+                      <button class="TableBUTon" onclick="window.location.href='orders.html'">
+                        View All Transaction
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
 
             </div>
 
@@ -771,7 +740,7 @@
     </script>
 
 
-    <script>
+    <!-- <script>
       const token = localStorage.getItem("token") || localStorage.getItem("key");
 
       // ✅ Block access if distributor logs out and tries to go back
@@ -787,7 +756,7 @@
       if (!token) {
         window.location.replace("auth.html");
       }
-    </script>
+    </script> -->
 
     <!-- PREFIL DISTRIBUTOR NAME ON DASHBOARD  -->
     <script>
