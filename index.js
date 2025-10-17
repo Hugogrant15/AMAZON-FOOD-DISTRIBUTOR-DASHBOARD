@@ -263,14 +263,6 @@ function toggleNotification(event) {
 }
 
 
-
-
-
-
-
-
-
-
 document.addEventListener('click', function (e) {
   const popup1 = document.getElementById('notificationPopUp');
   const popup2 = document.getElementById('notificationPopUp1');
@@ -350,7 +342,6 @@ document.addEventListener("DOMContentLoaded", loadProducts);
 
 
 // function to load customers(CUSTOMER.HTML RENDERING) by distributor location 
-
 document.addEventListener("DOMContentLoaded", () => {
   let allUsers = [];   // store all unique users
   let currentPage = 1;
@@ -506,8 +497,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load data on page ready
   loadDistributorUsers();
 });
-
-
 
 
 // load customer card on dashboard
@@ -1137,6 +1126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return "just now";
   }
 });
+
 
 // Best-selling products (donut) with year navigation and robust handling
 document.addEventListener("DOMContentLoaded", () => {

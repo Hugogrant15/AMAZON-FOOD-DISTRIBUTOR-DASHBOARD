@@ -693,7 +693,7 @@
 
 
     <!-- ORDER RENDERING(TABLE) AND DETAILS for each orders -->
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", loadDistributorOrders);
 
         let allOrders = [];
@@ -945,10 +945,263 @@
         const order = window.currentOrders?.find((o) => o._id === orderId);
         if (order) showOrderModal(order);
         });
-    </script>
+    </script> -->
 
 
+<script>
+  document.addEventListener("DOMContentLoaded", loadDistributorOrders);
 
+  let allOrders = [];
+  let currentPage = 1;
+  const pageSize = 10;
+
+  async function loadDistributorOrders() {
+    console.log("✅ Loading distributor orders...");
+    try {
+      const distributorCity = localStorage.getItem("city");
+      if (!distributorCity) {
+        console.warn("No distributor city found in localStorage");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3001/amazon/document/api/orders");
+      if (!response.ok) throw new Error("Failed to fetch orders");
+      const orders = await response.json();
+
+      allOrders = orders.filter(
+        (order) =>
+          order.customerSnapshot?.city?.toLowerCase() ===
+          distributorCity.toLowerCase()
+      );
+
+      window.currentOrders = allOrders;
+      renderTable();
+      renderPagination();
+    } catch (error) {
+      console.error("🔥 Error loading distributor orders:", error);
+    }
+  }
+
+  function renderTable() {
+    const tbody = document.querySelector("#Allordertable tbody");
+    tbody.innerHTML = "";
+
+    if (allOrders.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No orders in your city</td></tr>`;
+      document.getElementById("paginationInfo").textContent = "";
+      return;
+    }
+
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    const pageData = allOrders.slice(start, end);
+
+    pageData.forEach((order) => {
+      const row = document.createElement("tr");
+      row.setAttribute("data-order-id", order._id);
+
+      const productNames =
+        order.items?.map((item) => item.name || "Unnamed").join(", ") || "N/A";
+
+      row.innerHTML = `
+        <td>${order._id || "N/A"}</td>
+        <td>${new Date(order.createdAt).toLocaleDateString() || "N/A"}</td>
+        <td>${productNames}</td>
+        <td>${order.customerSnapshot?.city || "N/A"}</td>
+        <td>
+          <div style="display: inline-flex; align-items: center; gap: 6px;">
+            ${
+              order.deliveryStatus === "Delivered"
+                ? `<span style="display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border:2px solid #22c55e; border-radius:50%; color:#22c55e;">
+                     <i class="fa-solid fa-check" style="font-size:10px;"></i>
+                   </span>
+                   <span style="color:#111;">Delivered</span>`
+                : order.deliveryStatus === "Cancelled"
+                ? `<span style="display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border:2px solid #f97316; border-radius:50%; color:#f97316;">
+                     <i class="fa-solid fa-xmark" style="font-size:10px;"></i>
+                   </span>
+                   <span style="color:#111;">Cancelled</span>`
+                : `<span style="display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border:2px solid #8b5cf6; border-radius:50%; color:#8b5cf6;">
+                     <i class="fa-solid fa-ban" style="font-size:10px;"></i>
+                   </span>
+                   <span style="color:#111;">Pending</span>`
+            }
+          </div>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    // Update pagination info
+    const info = document.getElementById("paginationInfo");
+    info.textContent = `Showing ${start + 1} to ${Math.min(end, allOrders.length)} Items`;
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(allOrders.length / pageSize);
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+
+    if (totalPages <= 1) {
+      pagination.style.display = "none";
+      return;
+    } else {
+      pagination.style.display = "flex";
+    }
+
+    const createPageItem = (page, label, disabled = false, active = false) => `
+      <li class="page-item ${disabled ? "disabled" : ""} ${
+      active ? "active bg-success" : ""
+    }">
+        <a class="page-link" href="#" data-page="${page}">${label}</a>
+      </li>
+    `;
+
+    pagination.innerHTML += createPageItem(currentPage - 1, "&lt;", currentPage === 1);
+
+    for (let i = 1; i <= totalPages; i++) {
+      pagination.innerHTML += createPageItem(i, i, false, i === currentPage);
+    }
+
+    pagination.innerHTML += createPageItem(currentPage + 1, "&gt;", currentPage === totalPages);
+
+    pagination.querySelectorAll("a").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const page = parseInt(btn.dataset.page);
+        if (page >= 1 && page <= totalPages && page !== currentPage) {
+          currentPage = page;
+          renderTable();
+          renderPagination();
+        }
+      });
+    });
+  }
+
+  // ✅ Show Order Modal
+  function showOrderModal(order) {
+    const modalContent = document.getElementById("orderDetailsContent");
+    const customer = order.customerSnapshot || {};
+
+    const itemsHTML = order.items
+      .map(
+        (item) => `
+        <div class="col-md-6 mb-4">
+          <div class="card product-card">
+            <img src="${
+              item.image || "https://via.placeholder.com/400x300?text=No+Image"
+            }" class="card-img-top" alt="${item.name}">
+            <div class="card-body">
+              <h6 class="fw-bold mb-1">${item.name}</h6>
+              <p class="text-muted small mb-1">Quantity – ${item.quantity || 1}</p>
+              <h6 class="text-success fw-semibold">₦${item.price?.toLocaleString() || 0}</h6>
+            </div>
+          </div>
+        </div>`
+      )
+      .join("");
+
+    modalContent.innerHTML = `
+      <div class="order-header d-flex justify-content-between align-items-center">
+        <div><strong>#${order._id}</strong></div>
+        <div>
+          <span class="badge ${
+            order.deliveryStatus === "Delivered"
+              ? "bg-success"
+              : "bg-warning text-dark"
+          }">${order.deliveryStatus || "Pending"}</span>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-8"><div class="row">${itemsHTML}</div></div>
+        <div class="col-lg-4">
+          <div class="card customer-card p-3">
+            <h6 class="fw-bold mb-3">Customer Information</h6>
+            <div class="text-center customer-info">
+              <img src="${
+                customer.profileImage ||
+                "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-image-182145777.jpg"
+              }" alt="Customer photo">
+              <h6>${customer.firstName || "Unknown Customer"}</h6>
+              <p>${customer.email || "No email provided"}</p>
+              <p>${customer.phone || "No phone number"}</p>
+            </div>
+            <hr>
+            <div>
+              <p><strong>Shipping Address</strong><br>${customer.address || "N/A"}</p>
+              <p><strong>Billing Address</strong><br>${customer.address || "N/A"}</p>
+            </div>
+            <hr>
+            <button
+              class="btn ${
+                order.deliveryStatus === "Delivered"
+                  ? "btn-secondary"
+                  : "btn-success"
+              } w-100 mt-2"
+              id="markDeliveredBtn"
+              ${order.deliveryStatus === "Delivered" ? "disabled" : ""}
+            >
+              ${
+                order.deliveryStatus === "Delivered"
+                  ? '<i class="fa-solid fa-check me-2"></i>Delivered'
+                  : '<i class="fa-solid fa-check me-2"></i>Mark as Delivered'
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const modal = new bootstrap.Modal(document.getElementById("orderModal"));
+    modal.show();
+
+    const deliveredBtn = document.getElementById("markDeliveredBtn");
+    if (deliveredBtn && order.deliveryStatus !== "Delivered") {
+      deliveredBtn.addEventListener("click", async () => {
+        try {
+          const res = await fetch(
+            `http://localhost:3001/amazon/document/api/orders/${order._id}`,
+            {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ deliveryStatus: "Delivered" }),
+            }
+          );
+          if (!res.ok) throw new Error("Failed to update status");
+
+          order.deliveryStatus = "Delivered";
+          deliveredBtn.disabled = true;
+          deliveredBtn.classList.replace("btn-success", "btn-secondary");
+          deliveredBtn.innerHTML =
+            '<i class="fa-solid fa-check me-2"></i>Delivered';
+          await loadDistributorOrders();
+          Swal.fire({
+            icon: "success",
+            title: "Order delivered!",
+            text: `Order #${order._id} has been marked as delivered.`,
+            confirmButtonColor: "#198754",
+          });
+        } catch (error) {
+          console.error(error);
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to update order status.",
+          });
+        }
+      });
+    }
+  }
+
+  // ✅ Row click → show modal
+  document.addEventListener("click", (e) => {
+    const row = e.target.closest("tr[data-order-id]");
+    if (!row) return;
+    const orderId = row.getAttribute("data-order-id");
+    const order = window.currentOrders?.find((o) => o._id === orderId);
+    if (order) showOrderModal(order);
+  });
+</script>
 
     <!-- PREFIL DISTRIBUTOR NAME ON DASHBOARD  -->
     <script>

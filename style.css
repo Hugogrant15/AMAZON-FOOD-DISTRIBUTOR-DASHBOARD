@@ -747,6 +747,39 @@ form label {
 
 
 
+/* dashboard toast styling here  */
+#dashboardToast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #F0FFF4;
+  color: #333;
+  padding: 14px 18px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 0.5s ease;
+  z-index: 9999;
+}
+/* When visible */
+#dashboardToast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Inner content styling */
+.toast-content strong {
+  font-size: 15px;
+  color: #007B55;
+}
+.toast-content span {
+  font-size: 13px;
+  color: #333;
+}
+
+
 
 @media screen and (max-width: 600px) {
    #imgWidth {
