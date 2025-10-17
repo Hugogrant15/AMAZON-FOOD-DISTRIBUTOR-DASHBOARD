@@ -1526,6 +1526,75 @@ function filterDashboardItems(searchValue) {
 
 
 
+
+document.addEventListener("DOMContentLoaded", () => {
+  const changePasswordBtn = document.getElementById("changePasswordBtn");
+  const modal = document.getElementById("passwordModal");
+  const closeModalBtn = document.getElementById("closeModalBtn");
+  const updatePasswordBtn = document.getElementById("updatePasswordBtn");
+
+  // 🔹 Show modal
+  changePasswordBtn.addEventListener("click", () => {
+    modal.classList.remove("hidden");
+  });
+
+  // 🔹 Close modal
+  closeModalBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  // 🔹 Update password
+  updatePasswordBtn.addEventListener("click", async () => {
+    const currentPassword = document.getElementById("currentPassword").value.trim();
+    const newPassword = document.getElementById("newPassword").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      alert("All fields are required");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert("New passwords do not match");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("http://localhost:3001/api/users/update-password", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.message || "Update failed");
+
+      alert("Password updated successfully!");
+      modal.classList.add("hidden");
+
+      // Clear inputs
+      document.getElementById("currentPassword").value = "";
+      document.getElementById("newPassword").value = "";
+      document.getElementById("confirmPassword").value = "";
+
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+});
+
+
+
+
+
+
+
 function logOut(event) {
   event.preventDefault();
   Swal.fire({
